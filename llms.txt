@@ -2,7 +2,7 @@
 
 > Mini-AGI is a Kazakhstan-first working context layer for teams: incoming work signals become decisions, tasks, and project memory with human review before final actions.
 
-Canonical site: https://nurgysa.github.io/Mini-AGI
+Canonical site: https://nurgisa-labs.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
 Primary market: Kazakhstan
 Last updated: 2026-07-14
