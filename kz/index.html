@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="kk-KZ" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mini-AGI — AI бар жұмыс контуры</title><meta name="description" content="Mini-AGI кіріс хабарламаларды, кездесулер мен құжаттарды шешімге, тапсырмаға және жоба жадына айналдырады."><meta name="theme-color" content="#050706"><script>
+      (() => {
+        try {
+          const saved = window.localStorage.getItem('miniagi-theme');
+          const theme = saved === 'light' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+        } catch {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script><link rel="canonical" href="https://nurgysa.github.io/Mini-AGI/kz/"><link rel="alternate" hreflang="ru-KZ" href="https://nurgysa.github.io/Mini-AGI/ru/"><link rel="alternate" hreflang="kk-KZ" href="https://nurgysa.github.io/Mini-AGI/kz/"><link rel="alternate" hreflang="en" href="https://nurgysa.github.io/Mini-AGI/en/"><meta property="og:type" content="website"><meta property="og:title" content="Mini-AGI — AI бар жұмыс контуры"><meta property="og:description" content="Mini-AGI кіріс хабарламаларды, кездесулер мен құжаттарды шешімге, тапсырмаға және жоба жадына айналдырады."><meta property="og:url" content="https://nurgysa.github.io/Mini-AGI/kz/"><meta property="og:locale" content="kk_KZ"><meta property="og:image" content="https://nurgysa.github.io/Mini-AGI/assets/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://nurgysa.github.io/Mini-AGI/assets/og-image.png"><link rel="icon" href="/Mini-AGI/assets/favicon.svg" type="image/svg+xml"><link rel="manifest" href="/Mini-AGI/site.webmanifest"><link rel="stylesheet" href="/Mini-AGI/_astro/LanguageSwitch.D6RDo1Y1.css"></head><body><a class="skip-link" href="#main-content">негізгі мазмұнға өту</a>
+  <header><nav class="wrap" aria-label="Навигация"><a class="brand" href="/Mini-AGI/kz/"><span class="prompt">$</span><span>mini-agi</span></a><a class="nav-mid" href="#how">./контур</a><div class="nav-actions"><div class="lang-switch" aria-label="Сайт тілі"><a href="/Mini-AGI/ru/" title="Русский">RU</a><a href="/Mini-AGI/kz/" title="Қазақша" aria-current="page">KZ</a><a href="/Mini-AGI/en/" title="English">EN</a></div><button class="theme-toggle" type="button" data-theme-toggle data-theme-light-label="жарық режим" data-theme-dark-label="қараңғы режим" aria-pressed="false">жарық режим</button><a class="nav-cta" href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">талқылау</a></div></nav></header>
+
+  <main id="main-content" tabindex="-1"><section class="hero wrap" aria-labelledby="hero-title"><div><div class="label"><span class="cursor" aria-hidden="true"></span><span>7 күндік пилот / адам бақылауы</span></div><h1 id="hero-title">Кіріс сигналдар шешімге, тапсырмаға және жадқа айналады.</h1><p class="sub">Mini-AGI Telegram, кездесулер мен құжаттарды алып, жоба контекстін табады, нобай дайындайды және соңғы шешімді адамға қалдырады.</p><div class="actions"><a class="btn primary" href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">ағымымды талдау</a><a class="btn secondary" href="#scenario">сценарийді көру</a></div></div><aside class="terminal" aria-label="Mini-AGI CLI мысалы"><div class="term-top"><span class="lights"><i class="light"></i><i class="light"></i><i class="light"></i></span><span>miniagi://capture</span></div><div class="term-body"><div class="term-command" aria-label="$ miniagi capture meeting.md"><span class="cmd">$</span> <span id="typed-command" class="cmd" data-text="miniagi capture">miniagi capture</span> <span id="typed-file" class="comment" data-text="meeting.md">meeting.md</span><span class="typing-cursor" aria-hidden="true"></span></div><h2 data-reveal>Кездесуден кейін шешім қайда кетті?</h2><div class="line" data-reveal><span class="key">контекст</span><span class="value ">клиент · жоба · өткен шешім · дедлайн</span></div><div class="line" data-reveal><span class="key">нобай</span><span class="value dim">жауап + тапсырмалар + хаттама</span></div><div class="line" data-reveal><span class="key">тексеру</span><span class="value warn">2 дереккөз · 1 тәуекел</span></div><div class="line" data-reveal><span class="key">approval</span><span class="value stop">сыртқы жауап адамды күтеді</span></div><div class="mini-grid" aria-label="Күйлер"><div class="mini-cell"><span>күн 1</span><b>кіріс</b></div><div class="mini-cell"><span>күн 7</span><b>контур</b></div><div class="mini-cell"><span>кейін</span><b>жад</b></div></div></div><div class="term-bottom"><span>чат-бот емес</span><span>оқу → тексеру → шешу → есте сақтау</span></div></aside></section><script type="module">(()=>{let e=window.matchMedia(`(prefers-reduced-motion: reduce)`).matches,t=document.querySelector(`.terminal`),n=document.querySelector(`#typed-command`),r=document.querySelector(`#typed-file`),i=Array.from(document.querySelectorAll(`[data-reveal], .mini-grid`));if(!t||!n||!r||e)return;let a=t,o=n,s=r,c=(e,t,n=34)=>new Promise(r=>{e.textContent=``;let i=0,a=()=>{e.textContent=t.slice(0,i++),i<=t.length?window.setTimeout(a,n):r()};a()}),l=e=>new Promise(t=>window.setTimeout(t,e));async function u(){a.classList.add(`motion-ready`),i.forEach(e=>e.classList.remove(`is-visible`)),s.textContent=``,await l(360),await c(o,o.dataset.text||`miniagi capture`),await l(130),await c(s,s.dataset.text||`meeting.md`,42);for(let e of i)await l(150),e.classList.add(`is-visible`)}u()})();</script><section id="scenario" class="proof-band wrap" aria-label="Mini-AGI 7 күндік пилоты" data-scroll-reveal><div class="kicker">./7 күн</div><div class="proof-head"><h2>Алдымен бір ағын. Кейін жүйе.</h2><p>“Барлық жерге ИИ енгізу” емес. Қазір шешім жоғалатын нақты процесті аламыз: кіріс хабарламалар, кездесулер, құжаттар немесе тапсырмалар.</p></div><div class="proof-grid"><div class="proof-card"><span>күн 1</span><b>кірісті жинаймыз</b><p>Telegram, meeting.md, құжаттар, сілтемелер. Контекст қай жерде бөлінетінін көреміз.</p></div><div class="proof-card"><span>күн 3</span><b>жад қосамыз</b><p>Жоба, адамдар, өткен шешімдер, шектеулер және дереккөздер нобайдың бір бөлігіне айналады.</p></div><div class="proof-card"><span>күн 7</span><b>контур көрсетеміз</b><p>Жауаптар, тапсырмалар және хаттамалар нобай ретінде дайын. Сыртқы әрекет — тек approval кейін.</p></div></div></section><section id="how" class="section" data-scroll-reveal><div class="wrap section-row"><div class="kicker">./loop</div><div><h2>Бес жоғалған орынның орнына бір ағын.</h2><div class="rows"><div class="row"><b>capture</b><p>хабарлама, кездесу, файл немесе сілтеме жұмыс контурына түседі.</p></div><div class="row"><b>context</b><p>Mini-AGI жобаны, адамдарды, өткен шешімдерді және шектеулерді табады.</p></div><div class="row"><b>draft</b><p>хаттама, тапсырма, жауап немесе қысқа жазба дайындалады.</p></div><div class="row"><b>memory</b><p>расталған шешім жоба жадына қайта жазылады.</p></div></div></div></div></section><section class="section" data-scroll-reveal><div class="wrap section-row"><div class="kicker">./ережелер</div><div><h2>Автономия — тек тексерістен кейін.</h2><div class="rows"><div class="row"><b>дереккөз</b><p>әр фактінің сілтемесі, файлы немесе “тексерілмеді” белгісі бар.</p></div><div class="row"><b>тәуекел</b><p>ақша, клиенттер, жарияланымдар және заң сұрақтары автоматты түрде кетпейді.</p></div><div class="row"><b>approval</b><p>сыртқы әрекет пен соңғы мәтінді адам бекітеді.</p></div></div></div></div></section><section class="signal wrap" aria-label="Жұмыс сигналының мысалы" data-scroll-reveal><div class="signal-card"><div class="kicker">./тірі сигнал</div><p><b>Кездесуден кейін:</b> “пилотты бастауға келістік, бірақ next step кімде?”</p><div class="signal-flow"><span>хаттама</span><span>тапсырмалар</span><span>тәуекел</span><span>approval</span><span>жад</span></div></div></section><section class="closing wrap" data-scroll-reveal><div><div class="kicker">./бастау</div><h2>Қазір жұмыс жоғалатын орынды көрсетіңіз.</h2><p>Мен ағынды қарап, алғашқы Mini-AGI контурын ұсынамын: кіріске не аламыз, жад қайда сақталады, агент қандай нобайлар дайындайды және қай жерде approval керек.</p></div><a class="btn primary" href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">ағынды талдау</a></section></main>
+
+  <footer><div class="wrap"><span>$ miniagi status</span><span>контекст → тексеру → шешім → жад</span></div></footer>
+<script>
+      (() => {
+        const key = 'miniagi-theme';
+        const root = document.documentElement;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        const fallbackLabels = { light: 'светлый режим', dark: 'тёмный режим' };
+
+        function currentTheme() {
+          return root.dataset.theme === 'light' ? 'light' : 'dark';
+        }
+
+        function syncControls() {
+          const theme = currentTheme();
+          document.querySelectorAll('[data-theme-toggle]').forEach((control) => {
+            const label = theme === 'light'
+              ? control.getAttribute('data-theme-dark-label') || fallbackLabels.dark
+              : control.getAttribute('data-theme-light-label') || fallbackLabels.light;
+            control.textContent = label;
+            control.setAttribute('aria-label', label);
+            control.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+          });
+        }
+
+        function setTheme(theme) {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+          try { window.localStorage.setItem(key, theme); } catch {}
+          syncControls();
+        }
+
+        document.addEventListener('click', (event) => {
+          const target = event.target instanceof Element ? event.target.closest('[data-theme-toggle]') : null;
+          if (!target) return;
+          setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+        });
+
+        syncControls();
+      })();
+    </script><script>
+      (() => {
+        const root = document.documentElement;
+        const items = Array.from(document.querySelectorAll('[data-scroll-reveal]'));
+        if (!items.length) return;
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        root.classList.add(reduce ? 'reveal-reduced' : 'reveal-ready');
+
+        if (reduce || !('IntersectionObserver' in window)) {
+          items.forEach((item) => item.classList.add('is-visible'));
+          return;
+        }
+
+        items[0]?.classList.add('is-visible');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.18 });
+
+        items.forEach((item, index) => {
+          item.style.setProperty('--reveal-delay', `${Math.min(index * 70, 220)}ms`);
+          if (!item.classList.contains('is-visible')) observer.observe(item);
+        });
+      })();
+    </script></body></html>

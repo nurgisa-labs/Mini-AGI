@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Discuss the first working loop — Mini-AGI</title><meta name="description" content="Mini-AGI turns incoming messages, meetings and documents into decisions, tasks and project memory."><meta name="theme-color" content="#050706"><script>
+      (() => {
+        try {
+          const saved = window.localStorage.getItem('miniagi-theme');
+          const theme = saved === 'light' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+        } catch {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script><link rel="canonical" href="https://nurgysa.github.io/Mini-AGI/en/contact/"><link rel="alternate" hreflang="ru-KZ" href="https://nurgysa.github.io/Mini-AGI/ru/contact/"><link rel="alternate" hreflang="kk-KZ" href="https://nurgysa.github.io/Mini-AGI/kz/contact/"><link rel="alternate" hreflang="en" href="https://nurgysa.github.io/Mini-AGI/en/contact/"><meta property="og:type" content="website"><meta property="og:title" content="Discuss the first working loop — Mini-AGI"><meta property="og:description" content="Mini-AGI turns incoming messages, meetings and documents into decisions, tasks and project memory."><meta property="og:url" content="https://nurgysa.github.io/Mini-AGI/en/contact/"><meta property="og:locale" content="en"><meta property="og:image" content="https://nurgysa.github.io/Mini-AGI/assets/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://nurgysa.github.io/Mini-AGI/assets/og-image.png"><link rel="icon" href="/Mini-AGI/assets/favicon.svg" type="image/svg+xml"><link rel="manifest" href="/Mini-AGI/site.webmanifest"><link rel="stylesheet" href="/Mini-AGI/_astro/LanguageSwitch.D6RDo1Y1.css"></head><body><a class="skip-link" href="#main-content">skip to main content</a>
+  <main id="main-content" class="contact-page wrap" tabindex="-1"><div class="contact-top"><a class="brand" href="/Mini-AGI/en/"><span class="prompt">$</span><span>mini-agi</span></a><div class="contact-tools"><div class="lang-switch" aria-label="Site language"><a href="/Mini-AGI/ru/contact/" title="Русский">RU</a><a href="/Mini-AGI/kz/contact/" title="Қазақша">KZ</a><a href="/Mini-AGI/en/contact/" title="English" aria-current="page">EN</a></div><button class="theme-toggle" type="button" data-theme-toggle data-theme-light-label="light mode" data-theme-dark-label="dark mode" aria-pressed="false">light mode</button></div></div><h1>Discuss the first working loop</h1><p>Briefly describe the process: meetings, incoming ideas, documents or tasks. Mini-AGI starts with one real stream.</p><div class="contact-actions"><a class="btn primary" href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">write on Telegram</a><a class="btn secondary" href="/Mini-AGI/en/">back to home</a></div><section id="message-template" class="contact-fallback" aria-label="Fallback contact"><p><b>If Telegram does not open:</b> find @nurgisa_andasbekov and send this short note:</p><pre>Mini-AGI: I want to map a process.
+1. What gets lost: ...
+2. Where context lives now: ...
+3. What result is needed in 7 days: ...</pre></section></main>
+<script>
+      (() => {
+        const key = 'miniagi-theme';
+        const root = document.documentElement;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        const fallbackLabels = { light: 'светлый режим', dark: 'тёмный режим' };
+
+        function currentTheme() {
+          return root.dataset.theme === 'light' ? 'light' : 'dark';
+        }
+
+        function syncControls() {
+          const theme = currentTheme();
+          document.querySelectorAll('[data-theme-toggle]').forEach((control) => {
+            const label = theme === 'light'
+              ? control.getAttribute('data-theme-dark-label') || fallbackLabels.dark
+              : control.getAttribute('data-theme-light-label') || fallbackLabels.light;
+            control.textContent = label;
+            control.setAttribute('aria-label', label);
+            control.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+          });
+        }
+
+        function setTheme(theme) {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+          try { window.localStorage.setItem(key, theme); } catch {}
+          syncControls();
+        }
+
+        document.addEventListener('click', (event) => {
+          const target = event.target instanceof Element ? event.target.closest('[data-theme-toggle]') : null;
+          if (!target) return;
+          setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+        });
+
+        syncControls();
+      })();
+    </script><script>
+      (() => {
+        const root = document.documentElement;
+        const items = Array.from(document.querySelectorAll('[data-scroll-reveal]'));
+        if (!items.length) return;
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        root.classList.add(reduce ? 'reveal-reduced' : 'reveal-ready');
+
+        if (reduce || !('IntersectionObserver' in window)) {
+          items.forEach((item) => item.classList.add('is-visible'));
+          return;
+        }
+
+        items[0]?.classList.add('is-visible');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.18 });
+
+        items.forEach((item, index) => {
+          item.style.setProperty('--reveal-delay', `${Math.min(index * 70, 220)}ms`);
+          if (!item.classList.contains('is-visible')) observer.observe(item);
+        });
+      })();
+    </script></body></html>

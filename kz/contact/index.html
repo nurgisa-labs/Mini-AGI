@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="kk-KZ" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Алғашқы жұмыс контурын талқылау — Mini-AGI</title><meta name="description" content="Mini-AGI кіріс хабарламаларды, кездесулер мен құжаттарды шешімге, тапсырмаға және жоба жадына айналдырады."><meta name="theme-color" content="#050706"><script>
+      (() => {
+        try {
+          const saved = window.localStorage.getItem('miniagi-theme');
+          const theme = saved === 'light' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+        } catch {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script><link rel="canonical" href="https://nurgysa.github.io/Mini-AGI/kz/contact/"><link rel="alternate" hreflang="ru-KZ" href="https://nurgysa.github.io/Mini-AGI/ru/contact/"><link rel="alternate" hreflang="kk-KZ" href="https://nurgysa.github.io/Mini-AGI/kz/contact/"><link rel="alternate" hreflang="en" href="https://nurgysa.github.io/Mini-AGI/en/contact/"><meta property="og:type" content="website"><meta property="og:title" content="Алғашқы жұмыс контурын талқылау — Mini-AGI"><meta property="og:description" content="Mini-AGI кіріс хабарламаларды, кездесулер мен құжаттарды шешімге, тапсырмаға және жоба жадына айналдырады."><meta property="og:url" content="https://nurgysa.github.io/Mini-AGI/kz/contact/"><meta property="og:locale" content="kk_KZ"><meta property="og:image" content="https://nurgysa.github.io/Mini-AGI/assets/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://nurgysa.github.io/Mini-AGI/assets/og-image.png"><link rel="icon" href="/Mini-AGI/assets/favicon.svg" type="image/svg+xml"><link rel="manifest" href="/Mini-AGI/site.webmanifest"><link rel="stylesheet" href="/Mini-AGI/_astro/LanguageSwitch.D6RDo1Y1.css"></head><body><a class="skip-link" href="#main-content">негізгі мазмұнға өту</a>
+  <main id="main-content" class="contact-page wrap" tabindex="-1"><div class="contact-top"><a class="brand" href="/Mini-AGI/kz/"><span class="prompt">$</span><span>mini-agi</span></a><div class="contact-tools"><div class="lang-switch" aria-label="Сайт тілі"><a href="/Mini-AGI/ru/contact/" title="Русский">RU</a><a href="/Mini-AGI/kz/contact/" title="Қазақша" aria-current="page">KZ</a><a href="/Mini-AGI/en/contact/" title="English">EN</a></div><button class="theme-toggle" type="button" data-theme-toggle data-theme-light-label="жарық режим" data-theme-dark-label="қараңғы режим" aria-pressed="false">жарық режим</button></div></div><h1>Алғашқы жұмыс контурын талқылау</h1><p>Процесті қысқаша сипаттаңыз: кездесулер, кіріс идеялар, құжаттар немесе тапсырмалар. Mini-AGI бір нақты ағыннан басталады.</p><div class="contact-actions"><a class="btn primary" href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">Telegram-ға жазу</a><a class="btn secondary" href="/Mini-AGI/kz/">басты бетке қайту</a></div><section id="message-template" class="contact-fallback" aria-label="Резерв контакт"><p><b>Telegram ашылмаса:</b> @nurgisa_andasbekov тауып, қысқаша жіберіңіз:</p><pre>Mini-AGI: процесті талдағым келеді.
+1. Не жоғалады: ...
+2. Контекст қазір қайда тұрады: ...
+3. 7 күнде қандай нәтиже керек: ...</pre></section></main>
+<script>
+      (() => {
+        const key = 'miniagi-theme';
+        const root = document.documentElement;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        const fallbackLabels = { light: 'светлый режим', dark: 'тёмный режим' };
+
+        function currentTheme() {
+          return root.dataset.theme === 'light' ? 'light' : 'dark';
+        }
+
+        function syncControls() {
+          const theme = currentTheme();
+          document.querySelectorAll('[data-theme-toggle]').forEach((control) => {
+            const label = theme === 'light'
+              ? control.getAttribute('data-theme-dark-label') || fallbackLabels.dark
+              : control.getAttribute('data-theme-light-label') || fallbackLabels.light;
+            control.textContent = label;
+            control.setAttribute('aria-label', label);
+            control.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+          });
+        }
+
+        function setTheme(theme) {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+          try { window.localStorage.setItem(key, theme); } catch {}
+          syncControls();
+        }
+
+        document.addEventListener('click', (event) => {
+          const target = event.target instanceof Element ? event.target.closest('[data-theme-toggle]') : null;
+          if (!target) return;
+          setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+        });
+
+        syncControls();
+      })();
+    </script><script>
+      (() => {
+        const root = document.documentElement;
+        const items = Array.from(document.querySelectorAll('[data-scroll-reveal]'));
+        if (!items.length) return;
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        root.classList.add(reduce ? 'reveal-reduced' : 'reveal-ready');
+
+        if (reduce || !('IntersectionObserver' in window)) {
+          items.forEach((item) => item.classList.add('is-visible'));
+          return;
+        }
+
+        items[0]?.classList.add('is-visible');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.18 });
+
+        items.forEach((item, index) => {
+          item.style.setProperty('--reveal-delay', `${Math.min(index * 70, 220)}ms`);
+          if (!item.classList.contains('is-visible')) observer.observe(item);
+        });
+      })();
+    </script></body></html>

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://nurgysa.github.io/Mini-AGI/sitemap.xml
