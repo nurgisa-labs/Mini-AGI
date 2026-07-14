@@ -1,15 +1,14 @@
 # Mini-AGI
 
-> Mini-AGI is a Kazakhstan-first working context layer for teams: incoming work signals become decisions, tasks, and project memory with human review before final actions.
+> Mini-AGI is a working context layer for teams: incoming work signals become decisions, tasks, and project memory with human review before final actions.
 
 Canonical site: https://nurgisa-labs.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
-Primary market: Kazakhstan
-Last updated: 2026-07-14
+Last updated: 2026-07-15
 
 ## Core positioning
 
-Mini-AGI helps teams stop losing decisions across meetings, files, links, documents, tasks, and Telegram/WhatsApp-style incoming work. The public landing intentionally keeps the accepted dark terminal/CLI direction and adds a cool-neutral light mode, with low text and no generic SaaS dashboard. The current promise is a practical 7-day pilot around one real work stream, not a generic AI chatbot page.
+Mini-AGI helps teams stop losing decisions across meetings, files, links, documents, tasks, and incoming work. The public site uses a focused dark terminal/CLI interface with an optional light mode. The offer is a practical 7-day pilot around one real work stream, not a generic AI chatbot.
 
 1. Capture an incoming signal.
 2. Link it to project context, people, prior decisions, and constraints.
@@ -20,11 +19,9 @@ Mini-AGI helps teams stop losing decisions across meetings, files, links, docume
 
 ## Target audience
 
-- Founders and operators in Kazakhstan.
-- Teams that run work through meetings, documents, tasks, and messengers.
-- Tender/document-heavy teams.
-- Client service and internal operations teams.
-- Engineering/product teams that need source-grounded memory and review gates.
+- Teams working across meetings, documents, tasks, and messengers.
+- Operators who need a source-grounded memory and explicit review gates.
+- Teams starting with one repeatable work stream before expanding.
 
 ## Important topics
 
@@ -42,8 +39,6 @@ Mini-AGI helps teams stop losing decisions across meetings, files, links, docume
 
 - `/Mini-AGI/` — Russian main landing page.
 - `/Mini-AGI/contact/` — Russian contact fallback page.
-- `/Mini-AGI/ru/` — Russian main landing page.
-- `/Mini-AGI/ru/contact/` — Russian contact fallback page.
 - `/Mini-AGI/kz/` — Kazakh main landing page.
 - `/Mini-AGI/kz/contact/` — Kazakh contact fallback page.
 - `/Mini-AGI/en/` — English main landing page.
