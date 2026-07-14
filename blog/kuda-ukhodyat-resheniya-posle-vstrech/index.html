@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="ru-KZ" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Куда уходят решения после встреч — и как вернуть их в работу — Mini-AGI</title><meta name="description" content="Практическое объяснение рабочего контура Mini-AGI: capture → context → draft → одобрение человеком → память проекта."><meta name="theme-color" content="#050706"><script>
+      (() => {
+        try {
+          const saved = window.localStorage.getItem('miniagi-theme');
+          const theme = saved === 'light' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+        } catch {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script><link rel="canonical" href="https://nurgysa.github.io/Mini-AGI/blog/kuda-ukhodyat-resheniya-posle-vstrech/"><meta property="og:type" content="website"><meta property="og:title" content="Куда уходят решения после встреч — и как вернуть их в работу — Mini-AGI"><meta property="og:description" content="Практическое объяснение рабочего контура Mini-AGI: capture → context → draft → одобрение человеком → память проекта."><meta property="og:url" content="https://nurgysa.github.io/Mini-AGI/blog/kuda-ukhodyat-resheniya-posle-vstrech/"><meta property="og:locale" content="ru_KZ"><meta property="og:image" content="https://nurgysa.github.io/Mini-AGI/assets/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://nurgysa.github.io/Mini-AGI/assets/og-image.png"><link rel="icon" href="/Mini-AGI/assets/favicon.svg" type="image/svg+xml"><link rel="manifest" href="/Mini-AGI/site.webmanifest"><link rel="stylesheet" href="/Mini-AGI/_astro/i18n.RwYd7TLN.css"></head><body><a class="skip-link" href="#main-content">перейти к основному содержимому</a>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Куда уходят решения после встреч — и как вернуть их в работу","description":"Практическое объяснение рабочего контура Mini-AGI: capture → context → draft → одобрение человеком → память проекта.","datePublished":"2026-07-14","author":{"@type":"Organization","name":"Mini-AGI"},"publisher":{"@type":"Organization","name":"Mini-AGI"},"mainEntityOfPage":"https://nurgysa.github.io/Mini-AGI/blog/kuda-ukhodyat-resheniya-posle-vstrech/"}</script><main id="main-content" class="blog-article wrap" tabindex="-1"><div class="blog-article-top"><a class="brand" href="/Mini-AGI/"><span class="prompt">$</span><span>mini-agi</span></a><a class="blog-back" href="/Mini-AGI/blog/">← Все заметки</a></div><p class="blog-meta">2026-07-14 · 7 мин чтения</p><h1>Куда уходят решения после встреч — и как вернуть их в работу</h1><div class="blog-content"><p>После почти любой рабочей встречи происходит одно и то же: пока идёт разговор, всё кажется понятным — договорились, распределили, кто-то кивнул. А через два-три дня выясняется, что задача не поставлена, ответ клиенту не отправлен, а формулировку решения помнят по-разному. Само решение никуда физически не исчезает — оно просто оседает в местах, откуда его трудно достать: в чьей-то памяти, в личных заметках, в середине чата, который никто не откроет заново.</p>
+<h2 id="где-на-самом-деле-теряются-решения">Где на самом деле теряются решения</h2>
+<p>Если разобрать типичный рабочий поток, решения после встречи обычно расходятся по четырём направлениям.</p>
+<p>Первое — устная договорённость без фиксации. Один участник считает, что “next step” очевиден, второй помнит его иначе, третий вообще не в курсе, что решение было принято.</p>
+<p>Второе — черновик в переписке. Человек написал в Telegram или почте черновой ответ клиенту, но не отправил и не оформил как задачу — сообщение просто повисает в истории переписки.</p>
+<p>Третье — задача без контекста. Пункт попадает в трекер задач, но без ссылки на встречу, документ или прежнее решение, из-за которого она возникла. Через месяц никто не понимает, зачем эта задача нужна.</p>
+<p>Четвёртое — потеря связи с прошлым решением. Похожий вопрос уже обсуждался раньше, но новая встреча проходит так, будто это происходит впервые, потому что прежнее решение не было записано в доступном месте.</p>
+<p>Это не проблема мотивации или дисциплины — это проблема отсутствия единого рабочего контура, который забирает сигнал на входе и доводит его до итога. Именно так устроен Mini-AGI: не как чат-бот, а как последовательность из пяти шагов — capture, context, draft, approval и память проекта.</p>
+<h2 id="capture-сигнал-фиксируется-в-момент-когда-он-появился">Capture: сигнал фиксируется в момент, когда он появился</h2>
+<p>Первый шаг — захват входящего сигнала: сообщения в Telegram, файла встречи (<code>meeting.md</code>), пересланного письма, ссылки на документ. Задача этого шага одна — не потерять сам факт, что появился сигнал, требующий реакции. Никакой обработки на этом этапе не происходит, только фиксация: что пришло, от кого, когда и в связи с чем.</p>
+<p>Это устраняет первую точку потери — устную договорённость. Если сигнал зафиксирован сразу после встречи, он уже не зависит от того, кто и как его запомнил.</p>
+<h2 id="context-сигнал-связывается-с-тем-что-уже-известно">Context: сигнал связывается с тем, что уже известно</h2>
+<p>Дальше сигнал сопоставляется с контекстом проекта: какой это клиент или направление, какие решения по этой теме принимались раньше, есть ли ограничения — дедлайн, бюджет, договорённость, о которой важно не забыть. На этом шаге Mini-AGI не придумывает факты — он подтягивает то, что уже зафиксировано в памяти проекта, и явно помечает, если по какому-то пункту источника нет.</p>
+<p>Это устраняет четвёртую точку потери — разрыв с прошлым решением. Вместо того чтобы каждый раз обсуждать вопрос заново, контур подкладывает то, что уже известно, и человеку остаётся проверить и дополнить, а не вспоминать с нуля.</p>
+<h2 id="draft-черновик-а-не-готовое-действие">Draft: черновик, а не готовое действие</h2>
+<p>На основе сигнала и контекста готовится черновик: ответ, протокол встречи, формулировка задачи или короткая записка с сутью решения. Ключевое слово здесь — черновик. Это не отправленное письмо и не закрытая задача, а подготовленный вариант, который экономит время на первом наброске, но не подменяет решение человека.</p>
+<p>Черновик снимает вторую точку потери — переписку, которая повисает без движения, потому что у человека не было времени сформулировать ответ с нуля. Когда черновик уже готов, отреагировать на него — вопрос минут, а не часов.</p>
+<h2 id="approval-точка-где-решение-принимает-человек">Approval: точка, где решение принимает человек</h2>
+<p>Здесь заканчивается автономная часть контура. Любое внешнее действие — отправка ответа клиенту, публикация, финансовое решение, юридически значимая формулировка — не уходит само по себе. Черновик и его источники показываются человеку, который либо утверждает формулировку как есть, либо правит её, либо отклоняет.</p>
+<p>Это не техническое ограничение, которое можно снять позже, а сознательный принцип: решения, связанные с деньгами, клиентами, публичными заявлениями и юридическими вопросами, требуют человеческого одобрения при любом уровне автоматизации черновика. Автономия контура растёт только в подготовке — не в финальном действии.</p>
+<h2 id="память-проекта-одобренное-решение-возвращается-в-контур">Память проекта: одобренное решение возвращается в контур</h2>
+<p>После того как человек утвердил решение, оно не остаётся в переписке или в закрытой задаче — оно возвращается в память проекта: связывается с клиентом, темой, предыдущими решениями и ограничениями, которые были учтены. Именно эта запись становится тем контекстом, который контур подтянет в следующий раз, когда возникнет похожий вопрос.</p>
+<p>Это устраняет третью точку потери — задачу без контекста. Решение хранится не как изолированная строчка в трекере, а как часть общей картины проекта, из которой видно, откуда оно взялось и почему было принято именно так.</p>
+<h2 id="с-чего-практически-начать">С чего практически начать</h2>
+<p>Внедрять контур сразу на все процессы не нужно и не стоит. Практичнее выбрать один повторяющийся тип встреч или сигналов — например, регулярные статусы по проекту или входящие заявки в одном канале — и провести через него весь цикл: capture → context → draft → approval → память. Это позволяет увидеть, где именно в конкретном потоке решения терялись раньше, и проверить, действительно ли черновики и контекст экономят время, прежде чем расширять контур на другие процессы.</p>
+<p>Возврат решения в память — не последний шаг ради отчётности, а то, что делает следующий цикл быстрее предыдущего: чем больше решений корректно зафиксировано, тем меньше времени тратится на восстановление контекста в следующий раз.</p>
+<h2 id="что-стоит-проверить-в-первом-пилоте">Что стоит проверить в первом пилоте</h2>
+<p>Не нужно начинать с попытки автоматизировать всё. Достаточно выбрать один повторяющийся поток: регулярную встречу по проекту или входящие заявки в одном канале. Для него стоит проверить три вещи: зафиксирован ли сигнал сразу, нашёлся ли у черновика нужный контекст и может ли человек быстро подтвердить или поправить результат.</p>
+<p>Контур не заменяет трекер задач, календарь и переписку. Он помогает связать то, что уже происходит в этих инструментах: входящий сигнал, прошлое решение, черновик следующего шага и подтверждённый итог. Если по какому-то пункту нет источника, это должно быть видно до внешнего действия, а не скрыто за уверенной формулировкой.</p>
+<p>Цель первого цикла — не доказать, что система принимает решения вместо команды. Цель скромнее и полезнее: перестать заново восстанавливать контекст, не терять следующий шаг и вернуть подтверждённое решение в память проекта.</p>
+</div></main>
+<script>
+      (() => {
+        const key = 'miniagi-theme';
+        const root = document.documentElement;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        const fallbackLabels = { light: 'светлый режим', dark: 'тёмный режим' };
+
+        function currentTheme() {
+          return root.dataset.theme === 'light' ? 'light' : 'dark';
+        }
+
+        function syncControls() {
+          const theme = currentTheme();
+          document.querySelectorAll('[data-theme-toggle]').forEach((control) => {
+            const label = theme === 'light'
+              ? control.getAttribute('data-theme-dark-label') || fallbackLabels.dark
+              : control.getAttribute('data-theme-light-label') || fallbackLabels.light;
+            control.textContent = label;
+            control.setAttribute('aria-label', label);
+            control.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+          });
+        }
+
+        function setTheme(theme) {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+          try { window.localStorage.setItem(key, theme); } catch {}
+          syncControls();
+        }
+
+        document.addEventListener('click', (event) => {
+          const target = event.target instanceof Element ? event.target.closest('[data-theme-toggle]') : null;
+          if (!target) return;
+          setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+        });
+
+        syncControls();
+      })();
+    </script><script>
+      (() => {
+        const root = document.documentElement;
+        const items = Array.from(document.querySelectorAll('[data-scroll-reveal]'));
+        if (!items.length) return;
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        root.classList.add(reduce ? 'reveal-reduced' : 'reveal-ready');
+
+        if (reduce || !('IntersectionObserver' in window)) {
+          items.forEach((item) => item.classList.add('is-visible'));
+          return;
+        }
+
+        items[0]?.classList.add('is-visible');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.18 });
+
+        items.forEach((item, index) => {
+          item.style.setProperty('--reveal-delay', `${Math.min(index * 70, 220)}ms`);
+          if (!item.classList.contains('is-visible')) observer.observe(item);
+        });
+      })();
+    </script></body></html>

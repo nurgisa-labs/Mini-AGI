@@ -5,7 +5,7 @@
 Canonical site: https://nurgysa.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
 Primary market: Kazakhstan
-Last updated: 2026-07-05
+Last updated: 2026-07-14
 
 ## Core positioning
 
@@ -48,6 +48,8 @@ Mini-AGI helps teams stop losing decisions across meetings, files, links, docume
 - `/Mini-AGI/kz/contact/` — Kazakh contact fallback page.
 - `/Mini-AGI/en/` — English main landing page.
 - `/Mini-AGI/en/contact/` — English contact fallback page.
+- `/Mini-AGI/blog/` — Russian Mini-AGI notes index.
+- `/Mini-AGI/blog/kuda-ukhodyat-resheniya-posle-vstrech/` — practical article on keeping meeting decisions in the working loop.
 
 ## What Mini-AGI is not
 
