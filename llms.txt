@@ -1,6 +1,6 @@
 # Mini-AGI
 
-> Mini-AGI is a working context layer for teams: incoming work signals become decisions, tasks, and project memory with human review before final actions.
+> Mini-AGI is a compact artificial general intelligence for team workflows: incoming work signals become decisions, tasks, and project memory with human review before final actions.
 
 Canonical site: https://nurgisa-labs.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
@@ -26,6 +26,9 @@ Mini-AGI helps teams stop losing decisions across meetings, files, links, docume
 ## Important topics
 
 - Mini-AGI
+- compact artificial general intelligence
+- мини искусственный общий интеллект
+- шағын жасанды жалпы интеллект
 - рабочий контур с ИИ
 - жобалық жад
 - project memory
