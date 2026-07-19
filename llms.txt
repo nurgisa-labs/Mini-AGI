@@ -4,7 +4,7 @@
 
 Canonical site: https://nurgisa-labs.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
-Last updated: 2026-07-15
+Last updated: 2026-07-19
 
 ## Core positioning
 
@@ -22,6 +22,10 @@ Mini-AGI helps teams stop losing decisions across meetings, files, links, docume
 - Teams working across meetings, documents, tasks, and messengers.
 - Operators who need a source-grounded memory and explicit review gates.
 - Teams starting with one repeatable work stream before expanding.
+
+## Smart devices
+
+Mini-AGI also develops verifiable smart devices around one real task. The engineering loop can combine Raspberry Pi, Arduino or ESP hardware, embedded software, local AI logic, external integrations and a 3D-printed enclosure. The first public case is a multisensor presence detector marked as a pilot in development, not a finished serial product.
 
 ## Important topics
 
@@ -42,10 +46,13 @@ Mini-AGI helps teams stop losing decisions across meetings, files, links, docume
 
 - `/Mini-AGI/` — Russian main landing page.
 - `/Mini-AGI/contact/` — Russian contact fallback page.
+- `/Mini-AGI/devices/` — Russian smart-device engineering page.
 - `/Mini-AGI/kz/` — Kazakh main landing page.
 - `/Mini-AGI/kz/contact/` — Kazakh contact fallback page.
+- `/Mini-AGI/kz/devices/` — Kazakh smart-device engineering page.
 - `/Mini-AGI/en/` — English main landing page.
 - `/Mini-AGI/en/contact/` — English contact fallback page.
+- `/Mini-AGI/en/devices/` — English smart-device engineering page.
 - `/Mini-AGI/blog/` — Russian Mini-AGI notes index.
 - `/Mini-AGI/blog/kuda-ukhodyat-resheniya-posle-vstrech/` — practical article on keeping meeting decisions in the working loop.
 

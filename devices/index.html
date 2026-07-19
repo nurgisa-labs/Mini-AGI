@@ -1,0 +1,88 @@
+<!DOCTYPE html><html lang="ru-KZ" data-theme="dark"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Mini-AGI — разработка умных устройств</title><meta name="description" content="Разработка проверяемых умных устройств на Raspberry Pi, Arduino и ESP: электроника, прошивки, ИИ-интеграции и 3D-печатные корпуса."><meta name="theme-color" content="#050706"><script>
+      (() => {
+        try {
+          const saved = window.localStorage.getItem('miniagi-theme');
+          const theme = saved === 'light' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+        } catch {
+          document.documentElement.dataset.theme = 'dark';
+        }
+      })();
+    </script><link rel="canonical" href="https://nurgisa-labs.github.io/Mini-AGI/devices/"><link rel="alternate" hreflang="ru-KZ" href="https://nurgisa-labs.github.io/Mini-AGI/devices/"><link rel="alternate" hreflang="kk-KZ" href="https://nurgisa-labs.github.io/Mini-AGI/kz/devices/"><link rel="alternate" hreflang="en" href="https://nurgisa-labs.github.io/Mini-AGI/en/devices/"><link rel="alternate" hreflang="x-default" href="https://nurgisa-labs.github.io/Mini-AGI/devices/"><meta property="og:type" content="website"><meta property="og:title" content="Mini-AGI — разработка умных устройств"><meta property="og:description" content="Разработка проверяемых умных устройств на Raspberry Pi, Arduino и ESP: электроника, прошивки, ИИ-интеграции и 3D-печатные корпуса."><meta property="og:url" content="https://nurgisa-labs.github.io/Mini-AGI/devices/"><meta property="og:locale" content="ru_KZ"><meta property="og:image" content="https://nurgisa-labs.github.io/Mini-AGI/assets/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://nurgisa-labs.github.io/Mini-AGI/assets/og-image.png"><script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"Mini-AGI — разработка умных устройств","description":"Разработка проверяемых умных устройств на Raspberry Pi, Arduino и ESP: электроника, прошивки, ИИ-интеграции и 3D-печатные корпуса.","serviceType":"Разработка умных устройств","url":"https://nurgisa-labs.github.io/Mini-AGI/devices/","areaServed":"Kazakhstan","provider":{"@type":"Organization","name":"Mini-AGI","url":"https://nurgisa-labs.github.io/Mini-AGI"}}</script><link rel="icon" href="/Mini-AGI/assets/favicon.svg" type="image/svg+xml"><link rel="manifest" href="/Mini-AGI/site.webmanifest"><link rel="stylesheet" href="/Mini-AGI/_astro/i18n.BXYeDl8v.css"></head><body><a class="skip-link" href="#main-content">перейти к основному содержимому</a>
+  <header><nav class="wrap devices-nav" aria-label="Навигация"><a class="brand" href="/Mini-AGI/"><span class="prompt">$</span><span>mini-agi</span><span class="devices-brand-suffix">/ devices</span></a><div class="nav-links"><a href="#capabilities">возможности</a><a href="#pilot">пилот</a><a href="#process">инженерный процесс</a></div><div class="nav-actions"><div class="lang-switch" aria-label="Язык сайта"><a href="/Mini-AGI/devices/" title="Русский" aria-current="page">RU</a><a href="/Mini-AGI/kz/devices/" title="Қазақша">KZ</a><a href="/Mini-AGI/en/devices/" title="English">EN</a></div><button class="theme-toggle" type="button" data-theme-toggle data-theme-light-label="светлый режим" data-theme-dark-label="тёмный режим" aria-label="светлый режим / тёмный режим" aria-pressed="false">светлый режим</button><a class="nav-cta" href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">обсудить устройство</a></div></nav></header>
+
+  <main id="main-content" tabindex="-1"><section class="devices-hero wrap" aria-labelledby="devices-hero-title"><div><div class="label"><span class="cursor" aria-hidden="true"></span><span>Mini-AGI / физические системы</span></div><h1 id="devices-hero-title">Умные устройства, которые решают реальную задачу.</h1><p class="devices-lead">Разрабатываем проверяемые прототипы на Raspberry Pi, Arduino и ESP: электроника, прошивки, ИИ-интеграции и 3D-печатный корпус в одном инженерном цикле.</p><div class="actions"><a class="btn primary" href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">обсудить устройство</a><a class="btn secondary" href="#pilot">посмотреть первый пилот</a></div><p class="devices-boundary">Не магазин готовых плат и не обещание массового выпуска. Начинаем с задачи, собираем рабочий прототип и проверяем его по измеримым критериям.</p></div><aside class="devices-console" aria-label="Схема пилота умного устройства"><div class="term-top"><span class="lights"><i class="light"></i><i class="light"></i><i class="light"></i></span><span>device://presence-01</span></div><div class="devices-console-body"><div class="devices-command"><span class="cmd">$ miniagi device inspect</span> <span class="comment">presence-01</span></div><div class="devices-chip"><span>ESP32</span><strong>6 каналов наблюдения</strong><small>mmWave · среда · свет · шум · ToF · PIR</small></div><div class="devices-console-row"><span>статус</span><b class="value warn">Пилот в разработке</b></div><div class="devices-console-row"><span>выход</span><b>состояние · уверенность · причина</b></div><div class="devices-console-row"><span>корпус</span><b>параметрическая 3D-модель</b></div></div><div class="term-bottom"><span>электроника → код → проверка</span><span>решение принимает человек</span></div></aside></section><section id="capabilities" class="devices-section devices-capabilities wrap"><div class="devices-section-head"><div class="kicker">./возможности</div><div><h2>Один контур разработки вместо разрозненных подрядчиков.</h2><p>Связываем электронику, программное обеспечение, ИИ и корпус в одну проверяемую систему.</p></div></div><div class="devices-capability-list"><article class="devices-capability-item"><span class="devices-index">01</span><div><h3>Электроника и прототипирование</h3><p>Подбираем плату, датчики, питание и интерфейсы под задачу и условия эксплуатации.</p></div><div class="devices-tech" aria-label="Электроника и прототипирование"><span>Raspberry Pi</span><span>Arduino</span></div></article><article class="devices-capability-item"><span class="devices-index">02</span><div><h3>Встраиваемое программное обеспечение</h3><p>Пишем устойчивую логику устройства, обработку сигналов и безопасное обновление.</p></div><div class="devices-tech" aria-label="Встраиваемое программное обеспечение"><span>ESP32 / ESP8266</span><span>C++ / MicroPython</span></div></article><article class="devices-capability-item"><span class="devices-index">03</span><div><h3>Локальная логика и ИИ</h3><p>Объединяем сигналы датчиков и внешние модели там, где это улучшает проверяемый результат.</p></div><div class="devices-tech" aria-label="Локальная логика и ИИ"><span>sensor fusion</span><span>human review</span></div></article><article class="devices-capability-item"><span class="devices-index">04</span><div><h3>Проектирование корпуса</h3><p>Прорабатываем размещение компонентов, доступ к разъёмам и корпус для 3D-печати.</p></div><div class="devices-tech" aria-label="Проектирование корпуса"><span>parametric CAD</span><span>3D printing</span></div></article><article class="devices-capability-item"><span class="devices-index">05</span><div><h3>Интеграция и испытания</h3><p>Собираем прототип целиком и проверяем сценарии, ошибки и ограничения на реальном объекте.</p></div><div class="devices-tech" aria-label="Интеграция и испытания"><span>test protocol</span><span>evidence log</span></div></article></div></section><section id="pilot" class="devices-pilot wrap"><div class="kicker">./первый пилот</div><div class="devices-pilot-grid"><article><span class="devices-pilot-state">Пилот в разработке</span><h2>Определить присутствие без постоянной камеры.</h2><h3>Мультисенсорный детектор присутствия</h3><p>Устройство объединяет шесть независимых сигналов, чтобы отличать пустую комнату, движение и неподвижного человека. Результат готовится вместе с уровнем уверенности и причиной решения.</p><div class="devices-privacy"><b>Граница приватности:</b> микрофон не записывает речь — устройство измеряет только общий уровень шума. Камера не входит в базовый пилот.</div></article></div></section><section id="process" class="devices-section devices-process wrap"><div class="devices-section-head"><div class="kicker">./инженерный процесс</div><div><h2>От идеи до работающего прототипа.</h2><p>Каждый этап заканчивается проверяемым результатом, а не презентацией без устройства.</p></div></div><div class="devices-process-grid"><article class="devices-process-step"><span>01</span><h3>Задача</h3><p>Фиксируем, что устройство должно замечать, решать или менять.</p></article><article class="devices-process-step"><span>02</span><h3>Ограничения</h3><p>Уточняем среду, питание, связь, приватность, бюджет и критерии приёмки.</p></article><article class="devices-process-step"><span>03</span><h3>Архитектура</h3><p>Выбираем плату, датчики, вычисления, интерфейсы и принцип корпуса.</p></article><article class="devices-process-step"><span>04</span><h3>Прототип</h3><p>Собираем электронику, код, интеграции и первую версию корпуса.</p></article><article class="devices-process-step"><span>05</span><h3>Испытания</h3><p>Проверяем реальные сценарии, крайние условия и причины ошибок.</p></article><article class="devices-process-step"><span>06</span><h3>Решение</h3><p>Передаём доказательства, ограничения и следующий инженерный шаг.</p></article></div></section><section class="devices-section devices-boundaries wrap"><div class="devices-section-head"><div class="kicker">./границы v1</div><div><h2>Честный объём первой версии.</h2></div></div><div class="devices-boundary-grid"><article><h3>В первой версии</h3><ul><li>один приоритетный сценарий устройства</li><li>рабочий прототип электроники и программного обеспечения</li><li>базовый корпус для 3D-печати</li><li>протокол испытаний и зафиксированные ограничения</li></ul></article><article class="devices-boundary-excluded"><h3>Требует отдельного этапа</h3><ul><li>Это не серийное производство без отдельной подготовки.</li><li>Сертификация и промышленная оснастка не подразумеваются автоматически.</li><li>Характеристики не публикуются до измерений на рабочем прототипе.</li></ul></article></div></section><section class="devices-closing"><div class="wrap devices-closing-inner"><div><h2>Опишите задачу устройства — не список компонентов.</h2><p>Что происходит сейчас, что устройство должно определить или выполнить и по каким признакам Вы примете результат.</p></div><div class="actions"><a class="btn primary" href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">обсудить задачу</a><a class="btn secondary" href="/Mini-AGI/">вернуться на главную</a></div></div></section></main>
+
+  <footer><div class="wrap"><span>$ miniagi devices --status pilot</span><span>задача → устройство → испытание → решение</span></div></footer>
+<script>
+      (() => {
+        const key = 'miniagi-theme';
+        const root = document.documentElement;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        const fallbackLabels = { light: 'светлый режим', dark: 'тёмный режим' };
+
+        function currentTheme() {
+          return root.dataset.theme === 'light' ? 'light' : 'dark';
+        }
+
+        function syncControls() {
+          const theme = currentTheme();
+          document.querySelectorAll('[data-theme-toggle]').forEach((control) => {
+            const label = theme === 'light'
+              ? control.getAttribute('data-theme-dark-label') || fallbackLabels.dark
+              : control.getAttribute('data-theme-light-label') || fallbackLabels.light;
+            // The accessible name (aria-label with both modes) stays constant;
+            // only the visible hint and the pressed state (light engaged) change.
+            control.textContent = label;
+            control.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+          });
+        }
+
+        function setTheme(theme) {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#050706');
+          try { window.localStorage.setItem(key, theme); } catch {}
+          syncControls();
+        }
+
+        document.addEventListener('click', (event) => {
+          const target = event.target instanceof Element ? event.target.closest('[data-theme-toggle]') : null;
+          if (!target) return;
+          setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+        });
+
+        syncControls();
+      })();
+    </script><script>
+      (() => {
+        const root = document.documentElement;
+        const items = Array.from(document.querySelectorAll('[data-scroll-reveal]'));
+        if (!items.length) return;
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        root.classList.add(reduce ? 'reveal-reduced' : 'reveal-ready');
+
+        if (reduce || !('IntersectionObserver' in window)) {
+          items.forEach((item) => item.classList.add('is-visible'));
+          return;
+        }
+
+        items[0]?.classList.add('is-visible');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.18 });
+
+        items.forEach((item, index) => {
+          item.style.setProperty('--reveal-delay', `${Math.min(index * 70, 220)}ms`);
+          if (!item.classList.contains('is-visible')) observer.observe(item);
+        });
+      })();
+    </script></body></html>
