@@ -4,7 +4,7 @@
 
 Canonical site: https://nurgisa-labs.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
-Last updated: 2026-07-19
+Last updated: 2026-07-23
 
 ## Core positioning
 
@@ -55,6 +55,7 @@ Mini-AGI also develops verifiable smart devices around one real task. The engine
 - `/Mini-AGI/en/devices/` — English smart-device engineering page.
 - `/Mini-AGI/blog/` — Russian Mini-AGI notes index.
 - `/Mini-AGI/blog/kuda-ukhodyat-resheniya-posle-vstrech/` — practical article on keeping meeting decisions in the working loop.
+- `/Mini-AGI/blog/s-chego-nachat-pilot-mini-agi/` — practical article on selecting the first Mini-AGI work stream for a seven-day pilot.
 
 ## What Mini-AGI is not
 
