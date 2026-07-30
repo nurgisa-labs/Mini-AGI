@@ -4,7 +4,7 @@
 
 Canonical site: https://nurgisa-labs.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
-Last updated: 2026-07-23
+Last updated: 2026-07-30
 
 ## Core positioning
 
@@ -53,7 +53,8 @@ Mini-AGI also develops verifiable smart devices around one real task. The engine
 - `/Mini-AGI/en/` — English main landing page.
 - `/Mini-AGI/en/contact/` — English contact fallback page.
 - `/Mini-AGI/en/devices/` — English smart-device engineering page.
-- `/Mini-AGI/blog/` — Russian Mini-AGI notes index.
+- `/Mini-AGI/blog/` — Russian Mini-AGI notes index with an English interactive learning artifact.
+- `/Mini-AGI/blog/how-a-neural-network-learns/` — original interactive 3D explainer of pixel input, forward propagation, loss and gradients, parameter updates, and a stronger correct-class response.
 - `/Mini-AGI/blog/kuda-ukhodyat-resheniya-posle-vstrech/` — practical article on keeping meeting decisions in the working loop.
 - `/Mini-AGI/blog/s-chego-nachat-pilot-mini-agi/` — practical article on selecting the first Mini-AGI work stream for a seven-day pilot.
 

@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How a Neural Network Learns to See a Digit — Interactive 3D Explainer</title>
+<meta name="description" content="A conceptual 3D explanation of how a neural network turns the pixels of a digit into a prediction and adjusts its parameters in response to error.">
+<link rel="canonical" href="https://nurgisa-labs.github.io/Mini-AGI/blog/how-a-neural-network-learns/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="How a Neural Network Learns to See a Digit — Interactive 3D Explainer">
+<meta property="og:description" content="An original interactive 3D explainer of pixels, forward propagation, loss and gradients, parameter updates, and a stronger target-class response.">
+<meta property="og:url" content="https://nurgisa-labs.github.io/Mini-AGI/blog/how-a-neural-network-learns/">
+<meta name="twitter:card" content="summary">
+<style>
+  :root {
+    --bg: #17191c;
+    --stage-bg: #1a1d20;
+    --panel: #1d2024;
+    --panel-edge: #2a2e33;
+    --text: #d8dcd8;
+    --muted: #8d968f;
+    --faint: #858e87;
+    --jade: #5fae94;
+    --jade-deep: #2c4f43;
+    --jade-soft: rgba(95, 174, 148, 0.14);
+    --blue: #6f9fce;
+    --coral: #c9705e;
+    --radius: 6px;
+    --serif: Georgia, "Times New Roman", serif;
+    --sans: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    height: 100%;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 15px;
+    line-height: 1.5;
+    overflow: hidden;
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: 370px minmax(0, 1fr);
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  /* ---------- Left column: chapters and narrative ---------- */
+
+  .rail {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
+    background: var(--panel);
+    border-right: 1px solid var(--panel-edge);
+  }
+
+  .rail-scroll {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding: 22px 24px 28px;
+    scroll-padding-bottom: 28px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--panel-edge) transparent;
+  }
+
+  .rail-scroll:focus-visible {
+    outline: 2px solid var(--jade);
+    outline-offset: -2px;
+  }
+
+  .masthead h1 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 1.3;
+    margin: 0 0 4px;
+    color: #e7eae6;
+  }
+
+  .masthead .sub {
+    margin: 0 0 18px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .chapter-nav {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+
+  .chapter-nav button {
+    flex: 1;
+    appearance: none;
+    border: 1px solid var(--panel-edge);
+    border-top: 2px solid var(--panel-edge);
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    padding: 7px 2px 6px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .chapter-nav button:hover { color: var(--text); }
+
+  .chapter-nav button[aria-current="step"] {
+    border-top-color: var(--jade);
+    color: var(--jade);
+    background: var(--jade-soft);
+  }
+
+  .kicker {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--jade);
+    margin: 0 0 6px;
+  }
+
+  .narrative h2 {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: 24px;
+    margin: 0 0 10px;
+    color: #eceeea;
+  }
+
+  .narrative p {
+    margin: 0 0 10px;
+    color: var(--text);
+  }
+
+  .narrative .note {
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .narrative strong { color: #eef1ed; font-weight: 600; }
+  .narrative .t-blue { color: var(--blue); }
+  .narrative .t-coral { color: var(--coral); }
+  .narrative .t-jade { color: var(--jade); }
+
+  /* ---------- Checkpoint question ---------- */
+
+  .checkpoint {
+    margin: 16px 0;
+    border: 1px solid var(--panel-edge);
+    border-radius: var(--radius);
+    background: rgba(255, 255, 255, 0.015);
+  }
+
+  .checkpoint summary {
+    cursor: pointer;
+    padding: 10px 12px;
+    font-size: 13px;
+    color: var(--jade);
+    list-style: none;
+  }
+
+  .checkpoint summary::before {
+    content: "▸ ";
+    color: var(--faint);
+  }
+
+  .checkpoint[open] summary::before { content: "▾ "; }
+
+  .checkpoint .cp-body {
+    padding: 0 12px 12px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .checkpoint .cp-q {
+    color: var(--text);
+    margin: 0 0 6px;
+  }
+
+  .checkpoint .cp-body p { margin: 0 0 6px; }
+  .checkpoint .cp-body p:last-child { margin-bottom: 0; }
+
+  .checkpoint .cp-body ul {
+    margin: 0 0 6px;
+    padding-left: 16px;
+  }
+
+  .checkpoint .cp-body a { color: var(--blue); }
+
+  .checkpoint .cp-formula {
+    color: var(--text);
+    font-variant-numeric: tabular-nums;
+    margin: 0 0 6px;
+  }
+
+  .narrative ul.triad {
+    margin: 0 0 10px;
+    padding-left: 16px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .narrative ul.triad li { margin: 0 0 3px; }
+
+  /* ---------- Scene object inspector ---------- */
+
+  .inspector {
+    margin: 0 0 16px;
+    padding: 12px;
+    border-left: 2px solid var(--jade-deep);
+    background: rgba(255, 255, 255, 0.015);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    min-height: 58px;
+  }
+
+  .inspector h3 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--jade);
+  }
+
+  .inspector p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .explore { margin-bottom: 16px; }
+
+  .explore h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--faint);
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+
+  .explore .hint {
+    font-size: 12px;
+    color: var(--muted);
+    margin: 0 0 8px;
+  }
+
+  .explore-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .explore-buttons button {
+    appearance: none;
+    border: 1px solid var(--panel-edge);
+    background: transparent;
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .explore-buttons button:hover { border-color: var(--jade); color: var(--jade); }
+
+  .explore-buttons button[aria-pressed="true"] {
+    border-color: var(--jade);
+    color: var(--jade);
+    background: var(--jade-soft);
+    font-weight: 600;
+  }
+
+  .explore-buttons button[aria-pressed="true"]::before {
+    content: "✓ ";
+  }
+
+  /* ---------- Output classes ---------- */
+
+  .readout h3 {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--faint);
+    margin: 0 0 8px;
+    font-weight: 600;
+  }
+
+  .prob-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px 14px;
+  }
+
+  .prob-list li {
+    display: grid;
+    grid-template-columns: 12px 1fr 34px;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .prob-list .d { color: var(--muted); }
+  .prob-list .val { color: var(--muted); text-align: right; }
+
+  .prob-list .bar {
+    height: 5px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .prob-list .fill {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: #4a5450;
+    border-radius: 3px;
+    transition: width 0.9s cubic-bezier(0.3, 0, 0.2, 1), background-color 0.5s;
+  }
+
+  .motion-stopped .prob-list .fill { transition: none; }
+
+  .prob-list li.is-target .fill { background: var(--jade); }
+  .prob-list li.is-target .d,
+  .prob-list li.is-target .val { color: var(--jade); }
+  .prob-list li.is-guess .fill { background: var(--blue); }
+  .prob-list li.is-guess .d,
+  .prob-list li.is-guess .val { color: var(--blue); }
+  .prob-list li.is-fading .fill { background: var(--coral); }
+  .prob-list li.is-fading .d,
+  .prob-list li.is-fading .val { color: var(--coral); }
+
+  .fineprint {
+    font-size: 11px;
+    color: var(--faint);
+    margin: 8px 0 0;
+  }
+
+  /* ---------- Controls ---------- */
+
+  .controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto auto;
+    gap: 8px;
+    padding: 14px 24px 16px;
+    border-top: 1px solid var(--panel-edge);
+    background: var(--panel);
+  }
+
+  .controls button {
+    appearance: none;
+    font-family: var(--sans);
+    font-size: 13px;
+    padding: 9px 10px;
+    border-radius: var(--radius);
+    border: 1px solid var(--panel-edge);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    transition: border-color 0.2s, background-color 0.2s, color 0.2s;
+    white-space: nowrap;
+  }
+
+  .controls button:hover:not(:disabled) { border-color: var(--jade); }
+
+  .controls button:disabled { opacity: 0.35; cursor: default; }
+
+  .controls .primary {
+    background: var(--jade-deep);
+    border-color: var(--jade-deep);
+    color: #dff0e9;
+  }
+
+  .controls .primary:hover:not(:disabled) { background: #35604f; }
+
+  /* ---------- Stage ---------- */
+
+  .stage {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    background: var(--stage-bg);
+  }
+
+  .stage canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    touch-action: pan-y pinch-zoom;
+  }
+
+  .stage canvas:focus-visible {
+    outline: 2px solid var(--jade);
+    outline-offset: -2px;
+  }
+
+  .stage-caption {
+    position: absolute;
+    top: 14px;
+    left: 18px;
+    font-family: var(--serif);
+    font-size: 13px;
+    color: var(--muted);
+    pointer-events: none;
+    margin: 0;
+  }
+
+  .legend {
+    position: absolute;
+    left: 18px;
+    bottom: 14px;
+    display: flex;
+    gap: 14px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 11px;
+    color: var(--muted);
+    pointer-events: none;
+  }
+
+  .legend li::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    margin-right: 6px;
+  }
+
+  .legend .l-jade::before { background: var(--jade); }
+  .legend .l-blue::before { background: var(--blue); }
+  .legend .l-coral::before { background: var(--coral); }
+
+  .webgl-fallback {
+    position: absolute;
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    text-align: center;
+    color: var(--muted);
+  }
+
+  .stage-note {
+    position: absolute;
+    right: 18px;
+    bottom: 14px;
+    margin: 0;
+    max-width: 300px;
+    font-size: 11px;
+    text-align: right;
+    color: var(--faint);
+    pointer-events: none;
+  }
+
+  .stage.no-webgl .webgl-fallback { display: flex; }
+  .stage.no-webgl canvas,
+  .stage.no-webgl .legend,
+  .stage.no-webgl .stage-note,
+  .stage.no-webgl .stage-caption { display: none; }
+
+  .noscript-fallback {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    display: grid;
+    place-content: center;
+    gap: 8px;
+    padding: 32px;
+    background: var(--bg);
+    color: var(--text);
+    text-align: center;
+  }
+
+  .noscript-fallback h2,
+  .noscript-fallback p { margin: 0; }
+
+  .noscript-fallback h2 { font-family: var(--serif); font-weight: 400; }
+  .noscript-fallback p { max-width: 640px; color: var(--muted); }
+
+  /* ---------- Accessibility ---------- */
+
+  button:focus-visible,
+  summary:focus-visible {
+    outline: 2px solid var(--jade);
+    outline-offset: 2px;
+  }
+
+  /* ---------- Narrow screens ---------- */
+
+  @media (max-width: 820px) {
+    body { overflow: auto; }
+    .app {
+      grid-template-columns: 1fr;
+      grid-template-rows: minmax(300px, 48vh) auto;
+      height: auto;
+      min-height: 100dvh;
+    }
+    .stage { order: 1; height: 48vh; min-height: 300px; }
+    .rail { order: 2; border-right: none; border-top: 1px solid var(--panel-edge); }
+    .rail-scroll { overflow-y: visible; padding-bottom: 96px; }
+    .controls {
+      position: sticky;
+      bottom: 0;
+      z-index: 20;
+      box-shadow: 0 -12px 24px rgba(23, 25, 28, 0.92);
+    }
+    .stage-caption { top: 10px; left: 12px; }
+    .legend { left: 12px; bottom: 10px; gap: 10px; }
+    .stage-note {
+      left: 12px;
+      right: 12px;
+      bottom: 40px;
+      max-width: none;
+      padding: 5px 7px;
+      text-align: left;
+      background: rgba(23, 25, 28, 0.86);
+      border-radius: 4px;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .rail-scroll { padding: 18px 16px 124px; }
+    .chapter-nav {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .chapter-nav button { min-width: 0; }
+    .controls {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      padding: 10px 16px 12px;
+    }
+    .controls button { min-width: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .prob-list .fill { transition: none; }
+    .controls button, .chapter-nav button, .explore-buttons button { transition: none; }
+  }
+</style>
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+  }
+}
+</script>
+</head>
+<body>
+<div class="app">
+
+  <aside class="rail" aria-label="Learning panel">
+    <section class="rail-scroll" tabindex="0" aria-label="Chapter content">
+      <header class="masthead">
+        <h1>How a Neural Network Learns to See a Digit</h1>
+        <p class="sub">A conceptual 3D explanation in four chapters</p>
+      </header>
+
+      <nav class="chapter-nav" aria-label="Chapters" id="chapterNav">
+        <!-- chapter buttons are created by the script -->
+      </nav>
+
+      <section class="narrative" aria-live="polite" aria-atomic="true">
+        <p class="kicker" id="chKicker">Chapter 1 of 4</p>
+        <h2 id="chTitle">Input</h2>
+        <div id="chText"></div>
+      </section>
+
+      <details class="checkpoint" id="checkpoint">
+        <summary>Check your understanding</summary>
+        <div class="cp-body">
+          <p class="cp-q" id="cpQuestion"></p>
+          <p id="cpAnswer"></p>
+        </div>
+      </details>
+
+      <section class="inspector" id="inspector" aria-live="polite">
+        <h3 id="inspTitle">Inspector</h3>
+        <p id="inspText">Click an object in the scene — a description of its role will appear here.</p>
+      </section>
+
+      <section class="explore">
+        <h3>Explore the scene</h3>
+        <p class="hint">Click an object in the 3D scene, or select it with a button (text alternative):</p>
+        <div class="explore-buttons" role="group" aria-label="Scene object selection">
+          <button type="button" data-zone="input" aria-pressed="false">Input 28×28</button>
+          <button type="button" data-zone="hidden1" aria-pressed="false">Hidden layer 1</button>
+          <button type="button" data-zone="hidden2" aria-pressed="false">Hidden layer 2</button>
+          <button type="button" data-zone="output" aria-pressed="false">Output 0–9</button>
+        </div>
+      </section>
+
+      <section class="readout" aria-label="Illustrative normalized output">
+        <h3>Illustrative normalized output</h3>
+        <ol class="prob-list" id="probList"><!-- rows are created by the script --></ol>
+        <p class="fineprint">Authored normalized responses for teaching: the values sum to 100%, but they are not outputs measured from a trained model.</p>
+      </section>
+
+      <details class="checkpoint">
+        <summary>Sources &amp; boundaries</summary>
+        <div class="cp-body">
+          <p>The conceptual explanations are informed by these primary educational sources:</p>
+          <ul>
+            <li><a href="https://news.mit.edu/2017/explained-neural-networks-deep-learning-0414" target="_blank" rel="noopener noreferrer">MIT News — "Explained: Neural networks"</a></li>
+            <li><a href="https://ocw.mit.edu/courses/6-s191-introduction-to-deep-learning-january-iap-2020/" target="_blank" rel="noopener noreferrer">MIT OpenCourseWare — 6.S191 "Introduction to Deep Learning"</a></li>
+            <li><a href="https://cs231n.github.io/neural-networks-1/" target="_blank" rel="noopener noreferrer">Stanford CS231n — "Neural Networks Part 1"</a></li>
+            <li><a href="https://cs231n.github.io/optimization-2/" target="_blank" rel="noopener noreferrer">Stanford CS231n — "Backpropagation, Intuitions"</a></li>
+          </ul>
+          <p>The visualization itself is original and author-created; it does not reproduce
+          code or graphics from those sources. It is not a logged training trace, an MNIST
+          replay, an empirical benchmark, or a model-performance claim.</p>
+        </div>
+      </details>
+    </section>
+
+    <footer class="controls">
+      <button type="button" id="btnPrev">← Back</button>
+      <button type="button" id="btnNext" class="primary">Next →</button>
+      <button type="button" id="btnPause" aria-pressed="false">Pause</button>
+      <button type="button" id="btnRestart">Restart</button>
+    </footer>
+  </aside>
+
+  <main class="stage" id="stage">
+    <canvas id="scene" role="img" aria-label="Three-dimensional scene: an input digit, hidden layers, and output classes" tabindex="0">
+      Interactive 3D scene. The chapter text and Inspector provide a complete text alternative.
+    </canvas>
+    <p class="stage-caption" id="stageCaption" aria-hidden="true"></p>
+    <ul class="legend" aria-hidden="true">
+      <li class="l-jade">network structure</li>
+      <li class="l-blue">forward signal</li>
+      <li class="l-coral">gradient metaphor</li>
+    </ul>
+    <p class="stage-note">Conceptual illustration: values, speeds, and flow paths are authored for explanation; this is not a recording of a real model being trained.</p>
+    <div class="webgl-fallback" role="status">
+      <h2 id="fallbackTitle">The interactive 3D scene is unavailable</h2>
+      <p id="fallbackText">Use the chapter text, output readout, and Inspector as the complete text alternative. The pixels of a digit "4" pass through two visible hidden layers to ten output classes; training updates parameters, not the input image.</p>
+    </div>
+  </main>
+
+</div>
+
+<noscript>
+  <section class="noscript-fallback">
+    <h2>JavaScript is unavailable</h2>
+    <p>This interactive explanation needs JavaScript for chapter navigation and the 3D scene. Please enable JavaScript, then reload the page.</p>
+  </section>
+</noscript>
+
+<script>
+/* =========================================================================
+   Inspector and zone-selection buttons — a plain dependency-free script,
+   so the text alternative keeps working even if the Three.js module fails
+   to load (no network/CDN) or WebGL is unavailable.
+   ========================================================================= */
+(function () {
+  'use strict';
+
+  var INSPECTOR = {
+    input: {
+      title: 'Input layer — 784 pixels',
+      text: 'A 28 × 28 grid. Each bar is one number: a pixel intensity. The forward pass receives only this numeric representation. During supervised training, a separate target label is used to calculate loss; it is not passed through the layers.',
+    },
+    hidden1: {
+      title: 'Hidden layer 1 — simple features',
+      text: 'Each node combines weighted pixel activations with a bias and applies a nonlinearity. In a trained model, early units may respond to combinations such as strokes or edges; this authored scene does not measure such features.',
+    },
+    hidden2: {
+      title: 'Hidden layer 2 — combinations of features',
+      text: 'Nodes in this layer combine the responses of the first layer. Trained models may build more abstract representations in deeper layers, but no semantic interpretation is measured for these authored nodes.',
+    },
+    output: {
+      title: 'Output layer — 10 classes',
+      text: 'One bar per digit, 0–9. The bars form an authored normalized response for teaching, not an output measured from a trained model. The illustrated answer is the class with the strongest response.',
+    },
+  };
+
+  var ZONES = ['input', 'hidden1', 'hidden2', 'output'];
+
+  var inspTitleEl = document.getElementById('inspTitle');
+  var inspTextEl = document.getElementById('inspText');
+  var zoneButtons = Array.prototype.slice.call(
+    document.querySelectorAll('.explore-buttons button')
+  );
+
+  // Inspector entries mapped by declaration order onto the canonical zone
+  // ids, so lookups never depend on how the source keys were typed.
+  var zoneInfo = {};
+  Object.keys(INSPECTOR).forEach(function (key, i) {
+    zoneInfo[ZONES[i]] = INSPECTOR[key];
+  });
+
+  // Single shared controller: the buttons below and clicks on objects in
+  // the 3D scene (via window.__selectZoneUI) both route through here.
+  function selectZoneUI(zone) {
+    var info = zoneInfo[zone];
+    if (!info) return;
+    inspTitleEl.textContent = info.title;
+    inspTextEl.textContent = info.text;
+    zoneButtons.forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-zone') === zone));
+    });
+    if (typeof window.__selectZone3d === 'function') {
+      window.__selectZone3d(zone);
+    }
+  }
+
+  zoneButtons.forEach(function (b, i) {
+    var zone = ZONES[i];
+    // Re-stamp the canonical zone id so the aria-pressed comparison above
+    // always agrees with the id the click handler passes in.
+    b.setAttribute('data-zone', zone);
+    b.addEventListener('click', function () {
+      selectZoneUI(zone);
+    });
+  });
+
+  window.__selectZoneUI = selectZoneUI;
+})();
+</script>
+
+<script type="module">
+let THREE = null;
+
+/* =========================================================================
+   Input data: a digit "4" is rasterized from three strokes into a 28×28
+   grid. It is an authored example input, not a sample from a real dataset.
+   ========================================================================= */
+
+const GRID_SIZE = 28;
+
+const STROKES = [
+  // [x0, y0, x1, y1, thickness] in grid coordinates (y grows downward)
+  [9.5, 4.5, 6.5, 15.5, 1.35],
+  [5.5, 16.5, 21.5, 16.5, 1.30],
+  [17.5, 4.0, 17.5, 24.0, 1.45],
+];
+
+function distToSegment(px, py, x0, y0, x1, y1) {
+  const dx = x1 - x0;
+  const dy = y1 - y0;
+  const lenSq = dx * dx + dy * dy;
+  let t = lenSq === 0 ? 0 : ((px - x0) * dx + (py - y0) * dy) / lenSq;
+  t = Math.max(0, Math.min(1, t));
+  return Math.hypot(px - (x0 + t * dx), py - (y0 + t * dy));
+}
+
+function buildDigitGrid() {
+  const g = new Float32Array(GRID_SIZE * GRID_SIZE);
+  for (let row = 0; row < GRID_SIZE; row++) {
+    for (let col = 0; col < GRID_SIZE; col++) {
+      let v = 0;
+      for (const [x0, y0, x1, y1, w] of STROKES) {
+        const d = distToSegment(col + 0.5, row + 0.5, x0, y0, x1, y1);
+        v = Math.max(v, 1.15 - d / w);
+      }
+      g[row * GRID_SIZE + col] = v > 0.08 ? Math.min(1, v) : 0;
+    }
+  }
+  return g;
+}
+
+/* =========================================================================
+   Chapter contracts. All numeric distributions are authored illustrative
+   values, not measurements from a real model.
+   ========================================================================= */
+
+const TARGET_DIGIT = 4;
+
+const CHAPTERS = [
+  {
+    id: 'input',
+    title: 'Input: a digit as numbers',
+    short: '1 · Input',
+    text: `
+      <p>To the network, the digit "4" is not an image but a <strong>table of 28 × 28 numbers</strong>:
+      the intensity of each pixel, from 0 to 1. In the scene each pixel is a
+      separate bar; the brighter the pixel, the taller and lighter it appears.</p>
+      <p>Supervised training uses three ingredients:</p>
+      <ul class="triad">
+        <li><strong>Input image</strong> — fixed pixel values; training never edits them.</li>
+        <li><strong>Target label</strong> — “4”, used to calculate loss, not passed through the layers.</li>
+        <li><strong>Model parameters</strong> — weights and biases updated by the optimizer.</li>
+      </ul>
+      <p class="note">A generic, MNIST-style teaching sketch: this authored 28 × 28 digit is not a dataset sample or a recorded training run. Move closer (drag to rotate, scroll to zoom): the forward pass receives numeric input; the target label is used separately to calculate training loss.</p>
+    `,
+    checkpoint: {
+      q: 'What is passed into the network’s forward computation?',
+      a: 'An array of 784 numbers — pixel intensities. The target label stays outside the forward path and is used separately to calculate training loss.',
+    },
+    camera: { pos: [3.2, 2.2, -3.0], target: [0, 0, -17.5] },
+    flow: 'none',
+    probs: null,
+    guess: null,
+    fading: null,
+    linkLevel: 0.05,
+    aria: 'Close-up of the 28-by-28 input grid: bright pixel bars form the digit four.',
+  },
+  {
+    id: 'forward',
+    title: 'The forward pass',
+    short: '2 · Forward',
+    text: `
+      <p>Simplified here: each <strong>dense layer</strong> combines the weighted activations
+      of the previous layer with a bias, then applies a nonlinearity. In this teaching
+      scene, the first hidden layer stands in for simple pixel combinations and the second
+      stands in for combinations of earlier responses. These authored nodes do not measure learned features.
+      The <span class="t-blue">blue pulses</span> indicate the
+      direction of computation: input → layers → output.</p>
+      <p>Before training, the outcome is unreliable: in this authored example the class
+      <span class="t-blue">"9"</span> responds most strongly, not "4".</p>
+      <p class="note">Schematic architecture: two visible hidden layers are used for clarity.
+      The layer widths and paths do not represent a specific trained model. Only a small subset
+      of connections is drawn for legibility; the scene is not a complete weight matrix.</p>
+      <details class="checkpoint">
+        <summary>Model math</summary>
+        <div class="cp-body">
+          <p class="cp-formula">x → W₁x + b₁ → φ(·) → … → class scores → normalization</p>
+          <p>A simplified dense-layer sketch: <strong>x</strong> is the vector of pixel values,
+          each <strong>W</strong> is a matrix of connection weights, each <strong>b</strong> a
+          vector of biases, and <strong>φ</strong> a nonlinearity applied to each value. A model
+          can normalize its class scores into an output distribution. The percentages shown here
+          are authored normalized responses, not measured outputs from a trained model.</p>
+        </div>
+      </details>
+    `,
+    checkpoint: {
+      q: 'What exactly is passed from layer to layer?',
+      a: 'Not an image, but a new representation: a set of activation values produced by combining the outputs of the previous layer with weights and a bias, then applying a nonlinearity.',
+    },
+    camera: { pos: [26, 11, 19], target: [0, 0, -2] },
+    flow: 'forward',
+    probs: [0.06, 0.05, 0.07, 0.08, 0.16, 0.06, 0.05, 0.09, 0.14, 0.24],
+    guess: 9,
+    fading: null,
+    linkLevel: 0.30,
+    aria: 'Wide view: blue pulses travel from the input grid through two hidden layers to ten output bars; the bar for class nine is the tallest.',
+  },
+  {
+    id: 'correction',
+    title: 'Error and correction',
+    short: '3 · Correction',
+    text: `
+      <p>A loss function compares the output with the target "4". Backpropagation uses
+      the chain rule to calculate how the loss changes with each weight and bias, and an
+      optimizer uses those gradients to nudge the parameters so that class
+      <span class="t-jade">"4"</span> can respond more strongly next time. The
+      <span class="t-coral">coral animation</span> is a metaphor for gradient-based credit
+      assignment — it is not a literal signal travelling backward through the network.</p>
+      <p><strong>Important:</strong> the input digit is not rewritten — it stays exactly
+      the same. Only the weights and biases between the layers change.</p>
+      <p class="note">The breathing connections mark where parameter changes would occur; they do not encode actual weight values or optimizer steps. The input remains fixed.</p>
+      <details class="checkpoint">
+        <summary>What correction computes</summary>
+        <div class="cp-body">
+          <p class="cp-formula">loss L(y, ŷ) → ∇θL → θ ← θ − η∇θL</p>
+          <p><strong>Plain gradient-descent shorthand:</strong> the loss compares the output ŷ
+          with the target y. Backpropagation applies the chain rule to calculate the gradient of
+          the loss for the parameters θ — the weights and biases — and a simple gradient-descent
+          update takes a small step η against that gradient. Other optimizers use related but
+          different update rules.
+          The coral flow is a visual metaphor for this gradient-based credit assignment, not a
+          literal backward-travelling signal.</p>
+        </div>
+      </details>
+    `,
+    checkpoint: {
+      q: 'What changes during training: the input, the layers, or the parameters?',
+      a: 'The weights and biases. Nobody edits the input pixels; the network adjusts the coefficients through which those pixels are combined.',
+    },
+    camera: { pos: [20, 9, 30], target: [2, 0, 6] },
+    flow: 'backward',
+    probs: [0.04, 0.03, 0.05, 0.06, 0.38, 0.04, 0.04, 0.06, 0.10, 0.20],
+    guess: null,
+    fading: 9,
+    linkLevel: 0.34,
+    aria: 'Coral pulses move from the output bars toward earlier layers as a gradient metaphor; the bar for class four grows while the bar for class nine shrinks.',
+  },
+  {
+    id: 'result',
+    title: 'The result of training',
+    short: '4 · Result',
+    text: `
+      <p>After many repetitions of the cycle "forward pass → loss → parameter update",
+      run across many training examples, the same 784 pixels lead to a different outcome:
+      class <span class="t-jade">"4"</span> now has the strongest normalized response while
+      the others have nearly faded. No single update "learns" a digit — repeated training on
+      examples can make similar inputs yield a stronger target-class response.</p>
+      <p class="note">These authored percentages illustrate the idea; they are not outputs
+      logged from a real model. Real networks repeat this cycle over many examples.</p>
+    `,
+    checkpoint: {
+      q: 'Why does the same input now give a different answer?',
+      a: 'Because the parameters changed: the same pixels are combined through different weights and biases, so class "4" now has the strongest normalized response.',
+    },
+    camera: { pos: [12, 3.5, 30], target: [1.5, 0, 12] },
+    flow: 'settled',
+    probs: [0.01, 0.01, 0.02, 0.02, 0.86, 0.01, 0.02, 0.01, 0.02, 0.02],
+    guess: null,
+    fading: null,
+    linkLevel: 0.22,
+    aria: 'View of the output bars: the bar for class four is noticeably taller than the rest and highlighted in jade.',
+  },
+];
+
+/* The inspector data and the zone-selection button handlers live in the
+   plain script above (window.__selectZoneUI) and do not depend on Three.js loading. */
+
+/* =========================================================================
+   DOM
+   ========================================================================= */
+
+const stageEl = document.getElementById('stage');
+const canvas = document.getElementById('scene');
+const chapterNav = document.getElementById('chapterNav');
+const chKicker = document.getElementById('chKicker');
+const chTitle = document.getElementById('chTitle');
+const chText = document.getElementById('chText');
+const checkpointEl = document.getElementById('checkpoint');
+const cpQuestion = document.getElementById('cpQuestion');
+const cpAnswer = document.getElementById('cpAnswer');
+const inspTitle = document.getElementById('inspTitle');
+const inspText = document.getElementById('inspText');
+const probList = document.getElementById('probList');
+const stageCaption = document.getElementById('stageCaption');
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const btnPause = document.getElementById('btnPause');
+const btnRestart = document.getElementById('btnRestart');
+const fallbackTitle = document.getElementById('fallbackTitle');
+const fallbackText = document.getElementById('fallbackText');
+
+const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+let reducedMotion = reducedMotionQuery.matches;
+
+// Deterministic generator so the connection layout is identical between page loads.
+function mulberry32(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a = (a + 0x6d2b79f5) | 0;
+    let t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const rng = mulberry32(20260730);
+
+/* =========================================================================
+   Output-class list in the panel
+   ========================================================================= */
+
+const probItems = [];
+for (let d = 0; d < 10; d++) {
+  const li = document.createElement('li');
+  const digit = document.createElement('span');
+  digit.className = 'd';
+  digit.textContent = String(d);
+  const bar = document.createElement('span');
+  bar.className = 'bar';
+  const fill = document.createElement('span');
+  fill.className = 'fill';
+  bar.appendChild(fill);
+  const val = document.createElement('span');
+  val.className = 'val';
+  val.textContent = '—';
+  li.append(digit, bar, val);
+  probList.appendChild(li);
+  probItems.push({ li, fill, val });
+}
+
+const navButtons = CHAPTERS.map((ch, i) => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.textContent = ch.short;
+  b.addEventListener('click', () => setChapter(i));
+  chapterNav.appendChild(b);
+  return b;
+});
+
+/* =========================================================================
+   WebGL check and renderer creation
+   ========================================================================= */
+
+let currentChapter = 0;
+let paused = false;
+const motionStopped = () => paused || reducedMotion;
+
+function webglAvailable() {
+  try {
+    const probe = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext &&
+      (probe.getContext('webgl2') || probe.getContext('webgl')));
+  } catch (err) {
+    return false;
+  }
+}
+
+function showFallback(reason = 'webgl') {
+  stageEl.classList.add('no-webgl');
+  stageEl.dataset.fallback = reason;
+  if (reason === 'module-load') {
+    fallbackTitle.textContent = 'The interactive 3D module could not be loaded';
+    fallbackText.textContent = 'The chapter text, output readout, and Inspector remain available. Check the network connection or host the pinned Three.js dependency locally.';
+  } else {
+    fallbackTitle.textContent = 'WebGL could not be started';
+    fallbackText.textContent = 'The chapter text, output readout, and Inspector remain available. Try a modern browser with hardware acceleration enabled.';
+  }
+}
+
+let renderer = null;
+function initialize3d(reason = 'module-load') {
+  if (THREE && webglAvailable()) {
+    try {
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false });
+    } catch (err) {
+      renderer = null;
+    }
+  }
+
+  if (!renderer) {
+    showFallback(THREE ? 'webgl' : reason);
+    applyChapterText(0); // the narrative and panel work even without 3D
+  } else {
+    initScene();
+  }
+}
+
+/* =========================================================================
+   Scene
+   ========================================================================= */
+
+function initScene() {
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x1a1d20);
+  scene.fog = new THREE.Fog(0x1a1d20, 46, 110);
+
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 220);
+  const camPose = {
+    pos: new THREE.Vector3(...CHAPTERS[0].camera.pos),
+    target: new THREE.Vector3(...CHAPTERS[0].camera.target),
+  };
+  let camTween = null;
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+  const keyLight = new THREE.DirectionalLight(0xdfe8e2, 1.05);
+  keyLight.position.set(12, 20, 10);
+  scene.add(keyLight);
+  const rimLight = new THREE.DirectionalLight(0x6f9fce, 0.28);
+  rimLight.position.set(-14, 6, -12);
+  scene.add(rimLight);
+
+  const COLOR_JADE = new THREE.Color(0x5fae94);
+  const COLOR_BLUE = new THREE.Color(0x6f9fce);
+  const COLOR_CORAL = new THREE.Color(0xc9705e);
+  const COLOR_NEUTRAL = new THREE.Color(0x46514b);
+
+  /* ---------- 28×28 input grid (bars) ---------- */
+
+  const grid = buildDigitGrid();
+  const S = 0.34;
+  const INPUT_Z = -18;
+  const pixelGeo = new THREE.BoxGeometry(0.26, 0.26, 1);
+  const pixelMat = new THREE.MeshStandardMaterial({
+    color: 0xffffff, roughness: 0.6, metalness: 0.05,
+    emissive: 0x5fae94, emissiveIntensity: 0.06,
+  });
+  const inputMesh = new THREE.InstancedMesh(pixelGeo, pixelMat, GRID_SIZE * GRID_SIZE);
+  inputMesh.userData.zone = 'input';
+  const dummy = new THREE.Object3D();
+  const dimCol = new THREE.Color(0x232b27);
+  const litCol = new THREE.Color(0xd4ecdf);
+  const tmpCol = new THREE.Color();
+  for (let row = 0; row < GRID_SIZE; row++) {
+    for (let col = 0; col < GRID_SIZE; col++) {
+      const i = row * GRID_SIZE + col;
+      const v = grid[i];
+      const depth = 0.1 + v * 1.15;
+      dummy.position.set((col - 13.5) * S, (13.5 - row) * S, INPUT_Z + depth / 2);
+      dummy.scale.set(1, 1, depth);
+      dummy.updateMatrix();
+      inputMesh.setMatrixAt(i, dummy.matrix);
+      inputMesh.setColorAt(i, tmpCol.copy(dimCol).lerp(litCol, Math.pow(v, 0.8)));
+    }
+  }
+  scene.add(inputMesh);
+
+  /* ---------- hidden layers: spheres (layer 1) and octahedra (layer 2) ---------- */
+
+  const H1_Z = -6, H2_Z = 3, OUT_Z = 12;
+
+  function h1Pos(i) {
+    return new THREE.Vector3(((i % 4) - 1.5) * 1.7, (1.5 - Math.floor(i / 4)) * 1.7, H1_Z);
+  }
+  function h2Pos(i) {
+    return new THREE.Vector3(((i % 4) - 1.5) * 2.0, (1.0 - Math.floor(i / 4)) * 1.9, H2_Z);
+  }
+  function outPos(i) {
+    return new THREE.Vector3((i - 4.5) * 1.5, -1.6, OUT_Z);
+  }
+
+  const h1Mat = new THREE.MeshStandardMaterial({
+    color: 0x4f9b83, roughness: 0.45, metalness: 0.1,
+    emissive: 0x5fae94, emissiveIntensity: 0.22,
+  });
+  const h1Group = new THREE.Group();
+  h1Group.userData.zone = 'hidden1';
+  const h1Geo = new THREE.SphereGeometry(0.34, 24, 16);
+  for (let i = 0; i < 16; i++) {
+    const m = new THREE.Mesh(h1Geo, h1Mat);
+    m.position.copy(h1Pos(i));
+    h1Group.add(m);
+  }
+  scene.add(h1Group);
+
+  const h2Mat = new THREE.MeshStandardMaterial({
+    color: 0x3f7f89, roughness: 0.4, metalness: 0.15,
+    emissive: 0x5fae94, emissiveIntensity: 0.2,
+  });
+  const h2Group = new THREE.Group();
+  h2Group.userData.zone = 'hidden2';
+  const h2Geo = new THREE.OctahedronGeometry(0.46, 0);
+  for (let i = 0; i < 12; i++) {
+    const m = new THREE.Mesh(h2Geo, h2Mat);
+    m.position.copy(h2Pos(i));
+    h2Group.add(m);
+  }
+  scene.add(h2Group);
+
+  /* ---------- output rank of ten bars ---------- */
+
+  const BAR_BASE_Y = -2.2;
+  const outGroup = new THREE.Group();
+  outGroup.userData.zone = 'output';
+  const barGeo = new THREE.BoxGeometry(0.7, 1, 0.7);
+  const bars = [];
+  for (let d = 0; d < 10; d++) {
+    const mat = new THREE.MeshStandardMaterial({
+      color: COLOR_NEUTRAL.clone(), roughness: 0.5, metalness: 0.08,
+      emissive: COLOR_NEUTRAL.clone(), emissiveIntensity: 0.18,
+    });
+    const m = new THREE.Mesh(barGeo, mat);
+    m.position.set((d - 4.5) * 1.5, BAR_BASE_Y + 0.1, OUT_Z);
+    m.scale.y = 0.2;
+    outGroup.add(m);
+    bars.push({ mesh: m, mat, h: 0.2, targetH: 0.2, color: COLOR_NEUTRAL.clone(), targetColor: COLOR_NEUTRAL.clone() });
+  }
+  scene.add(outGroup);
+
+  function snapBarsToTargets() {
+    for (const b of bars) {
+      b.h = b.targetH;
+      b.mesh.scale.y = b.h;
+      b.mesh.position.y = BAR_BASE_Y + b.h / 2;
+      b.color.copy(b.targetColor);
+      b.mat.color.copy(b.color);
+      b.mat.emissive.copy(b.color);
+    }
+  }
+
+  /* ---------- labels (sprites from canvas textures) ---------- */
+
+  function makeLabel(text, { w = 256, h = 64, font = '30px "Segoe UI", Arial', color = '#a4aea6', scale = [4.2, 1.05] } = {}) {
+    const c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    const ctx = c.getContext('2d');
+    ctx.font = font;
+    ctx.fillStyle = color;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(text, w / 2, h / 2);
+    const tex = new THREE.CanvasTexture(c);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, depthWrite: false }));
+    sp.scale.set(scale[0], scale[1], 1);
+    return sp;
+  }
+
+  const labels = [
+    ['input 28 × 28', 0, 5.8, INPUT_Z],
+    ['hidden layer 1', 0, 4.5, H1_Z],
+    ['hidden layer 2', 0, 4.3, H2_Z],
+    ['output: classes 0–9', 0, 3.6, OUT_Z],
+  ];
+  const stageLabels = [];
+  for (const [text, x, y, z] of labels) {
+    const sp = makeLabel(text);
+    sp.position.set(x, y, z);
+    stageLabels.push(sp);
+    scene.add(sp);
+  }
+  const outputDigitLabels = [];
+  for (let d = 0; d < 10; d++) {
+    const sp = makeLabel(String(d), { w: 64, h: 64, font: '30px "Segoe UI", Arial', color: '#9aa59d', scale: [0.7, 0.7] });
+    sp.position.set((d - 4.5) * 1.5, BAR_BASE_Y - 0.55, OUT_Z);
+    outputDigitLabels.push(sp);
+    scene.add(sp);
+  }
+
+  /* ---------- connections between layers ---------- */
+
+  const bright = [];
+  for (let i = 0; i < grid.length; i++) if (grid[i] > 0.4) bright.push(i);
+
+  function pixelPoint(i) {
+    const row = Math.floor(i / GRID_SIZE), col = i % GRID_SIZE;
+    return new THREE.Vector3((col - 13.5) * S, (13.5 - row) * S, INPUT_Z + 1.1);
+  }
+
+  const SEGS = [[], [], []]; // 0: input→layer1, 1: layer1→layer2, 2: layer2→output
+  for (let n = 0; n < 16; n++) {
+    for (let k = 0; k < 5; k++) {
+      const px = bright[Math.floor(rng() * bright.length)];
+      SEGS[0].push({ a: pixelPoint(px), b: h1Pos(n) });
+    }
+  }
+  for (let i = 0; i < 16; i++) for (let j = 0; j < 12; j++) {
+    SEGS[1].push({ a: h1Pos(i), b: h2Pos(j) });
+  }
+  for (let j = 0; j < 12; j++) for (let d = 0; d < 10; d++) {
+    SEGS[2].push({ a: h2Pos(j), b: outPos(d) });
+  }
+
+  const linkMats = [];
+  const linkLines = [];
+  for (const segs of SEGS) {
+    const positions = new Float32Array(segs.length * 6);
+    segs.forEach((s, i) => {
+      positions.set([s.a.x, s.a.y, s.a.z, s.b.x, s.b.y, s.b.z], i * 6);
+    });
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const mat = new THREE.LineBasicMaterial({
+      color: 0x5fae94, transparent: true, opacity: 0.1,
+      blending: THREE.AdditiveBlending, depthWrite: false,
+    });
+    linkMats.push(mat);
+    const line = new THREE.LineSegments(geo, mat);
+    linkLines.push(line);
+    scene.add(line);
+  }
+
+  /* ---------- signal pulses ---------- */
+
+  const PULSES = 110;
+  const pulsePositions = new Float32Array(PULSES * 3);
+  const pulseGeo = new THREE.BufferGeometry();
+  pulseGeo.setAttribute('position', new THREE.BufferAttribute(pulsePositions, 3));
+  const pulseMat = new THREE.PointsMaterial({
+    color: COLOR_BLUE, size: 0.22, transparent: true, opacity: 0.9,
+    blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true,
+  });
+  const pulsePoints = new THREE.Points(pulseGeo, pulseMat);
+  pulsePoints.frustumCulled = false;
+  pulsePoints.visible = false;
+  scene.add(pulsePoints);
+
+  const pulses = [];
+  for (let i = 0; i < PULSES; i++) {
+    const stage = Math.floor(rng() * 3);
+    const seg = SEGS[stage][Math.floor(rng() * SEGS[stage].length)];
+    pulses.push({ seg, t: rng(), speed: 0.35 + rng() * 0.5 });
+  }
+  function reseedPulse(p) {
+    const stage = Math.floor(rng() * 3);
+    p.seg = SEGS[stage][Math.floor(rng() * SEGS[stage].length)];
+    p.t = 0;
+    p.speed = 0.35 + rng() * 0.5;
+  }
+
+  let flowMode = 'none';
+  function setFlow(mode) {
+    flowMode = mode;
+    if (mode === 'none') { pulsePoints.visible = false; return; }
+    pulsePoints.visible = true;
+    if (mode === 'forward') { pulseMat.color.copy(COLOR_BLUE); pulseMat.opacity = 0.9; }
+    else if (mode === 'backward') { pulseMat.color.copy(COLOR_CORAL); pulseMat.opacity = 0.9; }
+    else { pulseMat.color.copy(COLOR_JADE); pulseMat.opacity = 0.5; }
+    pulseMat.size = mode === 'backward' ? 0.3 : 0.22;
+    for (const mat of linkMats) mat.color.copy(mode === 'backward' ? COLOR_CORAL : COLOR_JADE);
+    for (const p of pulses) { p.t = rng(); }
+  }
+
+  /* ---------- camera: fly-throughs and manual orbit ---------- */
+
+  function flyTo(pose) {
+    if (motionStopped()) {
+      camPose.pos.set(...pose.pos);
+      camPose.target.set(...pose.target);
+      camTween = null;
+      return;
+    }
+    camTween = {
+      fromPos: camPose.pos.clone(), fromTgt: camPose.target.clone(),
+      toPos: new THREE.Vector3(...pose.pos), toTgt: new THREE.Vector3(...pose.target),
+      t: 0, dur: 1.5,
+    };
+  }
+
+  const spherical = new THREE.Spherical();
+  const camOffset = new THREE.Vector3();
+  let dragging = false, dragMoved = 0, lastX = 0, lastY = 0;
+
+  canvas.addEventListener('pointerdown', (e) => {
+    dragging = true; dragMoved = 0; lastX = e.clientX; lastY = e.clientY;
+    canvas.setPointerCapture(e.pointerId);
+  });
+  canvas.addEventListener('pointermove', (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - lastX, dy = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    dragMoved += Math.abs(dx) + Math.abs(dy);
+    if (dragMoved < 4) return;
+    camTween = null;
+    camOffset.copy(camPose.pos).sub(camPose.target);
+    spherical.setFromVector3(camOffset);
+    spherical.theta -= dx * 0.005;
+    spherical.phi = Math.max(0.08, Math.min(Math.PI - 0.08, spherical.phi - dy * 0.005));
+    camOffset.setFromSpherical(spherical);
+    camPose.pos.copy(camPose.target).add(camOffset);
+  });
+  canvas.addEventListener('pointerup', (e) => {
+    if (dragging && dragMoved < 4) pick(e);
+    dragging = false;
+  });
+  canvas.addEventListener('pointercancel', () => { dragging = false; });
+  canvas.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    camTween = null;
+    camOffset.copy(camPose.pos).sub(camPose.target);
+    const r = Math.max(3.5, Math.min(85, camOffset.length() * (1 + e.deltaY * 0.001)));
+    camOffset.setLength(r);
+    camPose.pos.copy(camPose.target).add(camOffset);
+  }, { passive: false });
+
+  /* ---------- scene object picking ---------- */
+
+  const raycaster = new THREE.Raycaster();
+  const ndc = new THREE.Vector2();
+  const pickables = [inputMesh, h1Group, h2Group, outGroup];
+  let highlightZone = null, highlightUntil = 0;
+
+  function pick(e) {
+    const rect = canvas.getBoundingClientRect();
+    ndc.set(
+      ((e.clientX - rect.left) / rect.width) * 2 - 1,
+      -((e.clientY - rect.top) / rect.height) * 2 + 1
+    );
+    raycaster.setFromCamera(ndc, camera);
+    const hits = raycaster.intersectObjects(pickables, true);
+    for (const hit of hits) {
+      let o = hit.object;
+      while (o && !o.userData.zone) o = o.parent;
+      if (o && o.userData.zone) { selectZone(o.userData.zone); return; }
+    }
+  }
+
+  const zoneMats = {
+    input: [pixelMat],
+    hidden1: [h1Mat],
+    hidden2: [h2Mat],
+    output: bars.map((b) => b.mat),
+  };
+  const baseEmissive = { input: 0.06, hidden1: 0.22, hidden2: 0.2, output: 0.18 };
+
+  window.__selectZone3d = function (zone) {
+    highlightZone = zone;
+    highlightUntil = motionTime + 1.8;
+  };
+
+  /* ---------- resizing ---------- */
+
+  function resize() {
+    const w = Math.max(1, stageEl.clientWidth);
+    const h = Math.max(1, stageEl.clientHeight);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h, false);
+  }
+  window.addEventListener('resize', resize);
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(resize).observe(stageEl);
+  }
+  resize();
+
+  /* ---------- context loss ---------- */
+
+  canvas.addEventListener('webglcontextlost', (e) => {
+    e.preventDefault();
+    running = false;
+    showFallback();
+  });
+
+  /* ---------- main loop ---------- */
+
+  const clock = new THREE.Clock();
+  let motionTime = 0;
+  let running = true;
+  const easeInOut = (t) => t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  const tmpVec = new THREE.Vector3();
+
+  window.__applyChapter3d = function (ch, elapsed) {
+    const inputOnly = ch.id === 'input';
+    h1Group.visible = !inputOnly;
+    h2Group.visible = !inputOnly;
+    outGroup.visible = !inputOnly;
+    for (const line of linkLines) line.visible = !inputOnly;
+    stageLabels.forEach((label, index) => { label.visible = !inputOnly || index === 0; });
+    for (const label of outputDigitLabels) label.visible = !inputOnly;
+    flyTo(ch.camera);
+    setFlow(ch.flow);
+    for (let d = 0; d < 10; d++) {
+      const b = bars[d];
+      const p = ch.probs ? ch.probs[d] : 0;
+      b.targetH = ch.probs ? 0.25 + p * 6.2 : 0.2;
+      if (ch.fading === d) b.targetColor.copy(COLOR_CORAL);
+      else if (ch.guess === d) b.targetColor.copy(COLOR_BLUE);
+      else if (ch.probs && d === TARGET_DIGIT) b.targetColor.copy(COLOR_JADE);
+      else b.targetColor.copy(COLOR_NEUTRAL);
+    }
+    if (motionStopped()) snapBarsToTargets();
+  };
+
+  function animate() {
+    if (!running) return;
+    requestAnimationFrame(animate);
+    const frameDt = Math.min(clock.getDelta(), 0.1);
+    if (!motionStopped()) motionTime += frameDt;
+    const dt = motionStopped() ? 0 : frameDt;
+    const elapsed = motionTime;
+    const ch = CHAPTERS[currentChapter];
+
+    // camera
+    if (camTween && !motionStopped()) {
+      camTween.t += dt / camTween.dur;
+      const k = easeInOut(Math.min(1, camTween.t));
+      camPose.pos.lerpVectors(camTween.fromPos, camTween.toPos, k);
+      camPose.target.lerpVectors(camTween.fromTgt, camTween.toTgt, k);
+      if (camTween.t >= 1) camTween = null;
+    }
+    camera.position.copy(camPose.pos);
+    camera.lookAt(camPose.target);
+
+    // pulses
+    if (pulsePoints.visible) {
+      const backward = flowMode === 'backward';
+      const speedScale = flowMode === 'settled' ? 0.35 : 1;
+      for (let i = 0; i < PULSES; i++) {
+        const p = pulses[i];
+        if (!motionStopped()) {
+          p.t += dt * p.speed * speedScale;
+          if (p.t > 1) reseedPulse(p);
+        }
+        const t = backward ? 1 - p.t : p.t;
+        tmpVec.lerpVectors(p.seg.a, p.seg.b, t);
+        pulsePositions.set([tmpVec.x, tmpVec.y, tmpVec.z], i * 3);
+      }
+      pulseGeo.attributes.position.needsUpdate = true;
+    }
+
+    // "breathing" of the connections during correction
+    for (let s = 0; s < 3; s++) {
+      let op = ch.linkLevel;
+      if (!motionStopped() && flowMode === 'backward') op *= 0.75 + 0.45 * Math.sin(elapsed * 2.4 + s * 1.7);
+      else if (!motionStopped() && flowMode === 'settled') op *= 0.88 + 0.14 * Math.sin(elapsed * 1.1 + s);
+      linkMats[s].opacity = Math.max(0.02, op);
+    }
+
+    // output bars
+    if (!motionStopped()) {
+      const lerpK = 1 - Math.exp(-dt * 3.2);
+      for (const b of bars) {
+        b.h += (b.targetH - b.h) * lerpK;
+        b.mesh.scale.y = b.h;
+        b.mesh.position.y = BAR_BASE_Y + b.h / 2;
+        b.color.lerp(b.targetColor, lerpK);
+        b.mat.color.copy(b.color);
+        b.mat.emissive.copy(b.color);
+      }
+    }
+
+    // highlight of the selected zone
+    for (const zone of Object.keys(zoneMats)) {
+      const active = zone === highlightZone && elapsed < highlightUntil;
+      const boost = active ? (motionStopped() ? 0.55 : 0.45 + 0.3 * Math.sin(elapsed * 9)) : 0;
+      for (const m of zoneMats[zone]) {
+        m.emissiveIntensity = (zone === 'output' ? baseEmissive.output : baseEmissive[zone]) + boost;
+      }
+    }
+
+    renderer.render(scene, camera);
+  }
+
+  window.__applyChapter3d(CHAPTERS[0], 0);
+  // the first chapter starts without a fly-through — the camera opens in the chapter 1 pose
+  camTween = null;
+  animate();
+}
+
+/* =========================================================================
+   Narrative, chapters, controls
+   ========================================================================= */
+
+function applyChapterText(i) {
+  const ch = CHAPTERS[i];
+  navButtons.forEach((b, k) => {
+    if (k === i) b.setAttribute('aria-current', 'step');
+    else b.removeAttribute('aria-current');
+  });
+  chKicker.textContent = `Chapter ${i + 1} of ${CHAPTERS.length}`;
+  chTitle.textContent = ch.title;
+  chText.innerHTML = ch.text;
+  checkpointEl.open = false;
+  cpQuestion.textContent = ch.checkpoint.q;
+  cpAnswer.textContent = ch.checkpoint.a;
+  stageCaption.textContent = `Chapter ${i + 1}. ${ch.title}`;
+  canvas.setAttribute('aria-label', ch.aria);
+  btnPrev.disabled = i === 0;
+  btnNext.disabled = i === CHAPTERS.length - 1;
+
+  for (let d = 0; d < 10; d++) {
+    const it = probItems[d];
+    const p = ch.probs ? ch.probs[d] : 0;
+    it.fill.style.width = `${Math.round(p * 100)}%`;
+    it.val.textContent = ch.probs ? `${Math.round(p * 100)}%` : '—';
+    it.li.classList.toggle('is-target', !!ch.probs && d === TARGET_DIGIT && ch.guess !== d);
+    it.li.classList.toggle('is-guess', ch.guess === d);
+    it.li.classList.toggle('is-fading', ch.fading === d);
+  }
+}
+
+function setChapter(i) {
+  currentChapter = Math.max(0, Math.min(CHAPTERS.length - 1, i));
+  applyChapterText(currentChapter);
+  if (renderer && window.__applyChapter3d) {
+    window.__applyChapter3d(CHAPTERS[currentChapter], 0);
+  }
+}
+
+function selectZone(zone) {
+  if (typeof window.__selectZoneUI === 'function') {
+    window.__selectZoneUI(zone);
+  }
+}
+
+btnPrev.addEventListener('click', () => setChapter(currentChapter - 1));
+btnNext.addEventListener('click', () => setChapter(currentChapter + 1));
+btnRestart.addEventListener('click', () => setChapter(0));
+function syncMotionControl() {
+  const stopped = motionStopped();
+  const systemReduced = reducedMotion && !paused;
+  document.body.classList.toggle('motion-stopped', stopped);
+  btnPause.setAttribute('aria-pressed', String(stopped));
+  btnPause.textContent = systemReduced ? 'Motion reduced' : (paused ? 'Resume' : 'Pause');
+  btnPause.disabled = systemReduced;
+  btnPause.title = systemReduced ? 'Motion is reduced by your system preference.' : '';
+}
+
+btnPause.addEventListener('click', () => {
+  paused = !paused;
+  syncMotionControl();
+});
+
+reducedMotionQuery.addEventListener('change', (event) => {
+  reducedMotion = event.matches;
+  syncMotionControl();
+  if (reducedMotion && renderer && window.__applyChapter3d) {
+    window.__applyChapter3d(CHAPTERS[currentChapter], 0);
+  }
+});
+syncMotionControl();
+
+document.addEventListener('keydown', (e) => {
+  const tag = (e.target && e.target.tagName) || '';
+  if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A', 'SUMMARY'].includes(tag)) return;
+  if (e.key === 'ArrowRight') setChapter(currentChapter + 1);
+  else if (e.key === 'ArrowLeft') setChapter(currentChapter - 1);
+  else if (e.key === 'r' || e.key === 'R') {
+    if (renderer && window.__applyChapter3d) window.__applyChapter3d(CHAPTERS[currentChapter], 0);
+  }
+});
+
+setChapter(0);
+import('three')
+  .then((module) => {
+    THREE = module;
+    initialize3d();
+  })
+  .catch(() => initialize3d('module-load'));
+</script>
+</body>
+</html>
