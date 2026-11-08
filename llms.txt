@@ -4,11 +4,11 @@
 
 Canonical site: https://nurgisa-labs.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
-Last updated: 2026-07-30
+Last updated: 2026-11-08
 
 ## Core positioning
 
-Mini-AGI helps teams stop losing decisions across meetings, files, links, documents, tasks, and incoming work. The public site uses a focused dark terminal/CLI interface with an optional light mode. The offer is a practical 7-day pilot around one real work stream, not a generic AI chatbot.
+Mini-AGI helps teams stop losing decisions across meetings, files, links, documents, tasks, and incoming work. The Russian, Kazakh and English home pages use a shared light layout. The offer is a practical 7-day pilot around one real work stream, not a generic AI chatbot.
 
 1. Capture an incoming signal.
 2. Link it to project context, people, prior decisions, and constraints.
