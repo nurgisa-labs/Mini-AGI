@@ -586,6 +586,43 @@
     .prob-list .fill { transition: none; }
     .controls button, .chapter-nav button, .explore-buttons button { transition: none; }
   }
+/* Site reading-panel palette; the 3D scene and all learning scripts stay intact. */
+:root {
+  color-scheme: light;
+  --bg: #f9faf8; --panel: #ffffff; --panel-edge: #d4ddd4;
+  --text: #202b25; --muted: #59665e; --faint: #59665e;
+  --jade: #285b41; --jade-deep: #285b41; --jade-soft: #e9f0e8;
+  --blue: #315f89; --coral: #9a4233;
+  --sans: "Segoe UI", "Helvetica Neue", Helvetica, sans-serif;
+}
+
+.masthead h1, .narrative h2, .narrative strong { color: var(--text); }
+.checkpoint, .inspector { background: var(--bg); }
+.prob-list .bar { background: #e9f0e8; }
+.prob-list .fill { background: #59665e; }
+.controls .primary { color: #ffffff; }
+.controls .primary:hover:not(:disabled) { background: #19452f; }
+.miniagi-return { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+.miniagi-return a { display: inline-flex; align-items: center; min-height: 44px; color: var(--jade); font-size: 14px; text-decoration: none; }
+.miniagi-return .site-brand { color: var(--text); font-size: 24px; font-weight: 650; letter-spacing: -.065em; }
+.miniagi-return .site-brand::after { content: '.'; color: var(--jade); }
+a:focus-visible { outline: 2px solid var(--jade); outline-offset: 3px; }
+.stage {
+  --text: #d8dcd8; --muted: #a8b8ad; --faint: #a8b8ad;
+  --jade: #5fae94; --blue: #6f9fce; --coral: #c9705e;
+}
+@media (max-width: 820px) {
+  .miniagi-return { margin-bottom: 0; }
+  .controls { box-shadow: 0 -8px 20px rgba(32,43,37,.08); }
+  .mobile-stage-note { background: var(--jade-soft); }
+}
+@media (max-width: 520px) {
+  .rail-scroll { padding-top: 10px; }
+  .masthead .sub { margin-bottom: 4px; }
+}
+@media (max-width: 820px) and (max-height: 700px) {
+  .controls { box-shadow: none; }
+}
 </style>
 <script type="importmap">
 {
@@ -601,6 +638,10 @@
   <aside class="rail" aria-label="Learning panel">
     <section class="rail-scroll" tabindex="0" aria-label="Chapter content">
       <header class="masthead">
+        <nav class="miniagi-return" aria-label="Site navigation">
+          <a class="site-brand" href="/Mini-AGI/en/">Mini-AGI</a>
+          <a href="/Mini-AGI/blog/">Blog (Russian) ↗</a>
+        </nav>
         <h1>How a Neural Network Learns to See a Digit</h1>
         <p class="sub">A conceptual 3D explanation in four chapters</p>
       </header>
