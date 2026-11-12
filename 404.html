@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="ru-KZ" data-theme="light" data-inner-page="notfound"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Страница не найдена — Mini-AGI</title><meta name="description" content="Mini-AGI — мини искусственный общий интеллект: он превращает входящие, встречи и документы в решения, задачи и память проекта."><meta name="theme-color" content="#f9faf8"><script>
+      (() => {
+        const root = document.documentElement;
+        const inner = root.hasAttribute('data-inner-page');
+        if (inner) root.classList.add('inner-js');
+        try {
+          const saved = window.localStorage.getItem('miniagi-theme');
+          const theme = saved === 'light' || saved === 'dark' ? saved : inner ? 'light' : 'dark';
+          document.documentElement.dataset.theme = theme;
+          document.documentElement.style.colorScheme = theme;
+          const meta = document.querySelector('meta[name="theme-color"]');
+          if (meta) meta.setAttribute('content', inner ? (theme === 'light' ? '#f9faf8' : '#17251d') : (theme === 'light' ? '#f8fafc' : '#050706'));
+        } catch {
+          root.dataset.theme = inner ? 'light' : 'dark';
+        }
+      })();
+    </script><link rel="canonical" href="https://nurgisa-labs.github.io/Mini-AGI"><meta property="og:type" content="website"><meta property="og:title" content="Страница не найдена — Mini-AGI"><meta property="og:description" content="Mini-AGI — мини искусственный общий интеллект: он превращает входящие, встречи и документы в решения, задачи и память проекта."><meta property="og:url" content="https://nurgisa-labs.github.io/Mini-AGI"><meta property="og:locale" content="ru_KZ"><meta property="og:image" content="https://nurgisa-labs.github.io/Mini-AGI/assets/og-image.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="https://nurgisa-labs.github.io/Mini-AGI/assets/og-image.png"><link rel="icon" href="/Mini-AGI/assets/favicon.svg" type="image/svg+xml"><link rel="manifest" href="/Mini-AGI/site.webmanifest"><link rel="stylesheet" href="/Mini-AGI/_astro/BaseLayout.D3mYQb1i.css"></head><body class="inner-shell"><a class="skip-link" href="#main-content">перейти к основному содержимому</a><header class="inner-header" data-inner-header><div class="wrap inner-header-row"><a class="inner-brand" href="/Mini-AGI/">Mini-AGI</a><button class="inner-menu" type="button" data-inner-menu data-open-label="Меню" data-close-label="Закрыть" aria-controls="inner-navigation" aria-expanded="false">Меню</button><nav class="inner-navigation" id="inner-navigation" aria-label="Основная навигация"><div class="inner-nav-links"><a href="/Mini-AGI/#how">Как работает</a><a href="/Mini-AGI/#pilot">Пилот</a><a href="/Mini-AGI/devices/">Устройства</a><a href="/Mini-AGI/blog/">Блог</a></div><button class="theme-toggle" type="button" data-theme-toggle data-theme-light-label="светлый режим" data-theme-dark-label="тёмный режим" aria-label="светлый режим / тёмный режим" aria-pressed="true">тёмный режим</button><a class="inner-contact-link" href="/Mini-AGI/contact/">Связаться</a></nav></div></header><script type="module">var e=document.querySelector(`[data-inner-menu]`),t=document.querySelector(`#inner-navigation`);if(e&&t){let n=window.matchMedia(`(max-width: 1199px)`),r=n=>{e.setAttribute(`aria-expanded`,String(n)),e.textContent=(n?e.dataset.closeLabel:e.dataset.openLabel)||``,t.classList.toggle(`is-open`,n)};e.addEventListener(`click`,()=>r(e.getAttribute(`aria-expanded`)!==`true`)),t.addEventListener(`click`,e=>{e.target instanceof Element&&e.target.closest(`a`)&&r(!1)}),document.addEventListener(`keydown`,t=>{t.key===`Escape`&&e.getAttribute(`aria-expanded`)===`true`&&(r(!1),e.focus())}),n.addEventListener(`change`,()=>{n.matches&&t.contains(document.activeElement)&&e.focus(),r(!1)})}</script><main id="main-content" class="contact-page wrap" tabindex="-1"><div class="contact-main"><h1>Страница не найдена</h1><p lang="kk-KZ">Бет табылмады</p><p lang="en">Page not found</p><div class="contact-actions"><a class="btn primary" href="/Mini-AGI/">вернуться на главную</a><a class="btn secondary" lang="kk-KZ" href="/Mini-AGI/kz/">басты бетке қайту</a><a class="btn secondary" lang="en" href="/Mini-AGI/en/">back to home</a></div></div></main><footer class="inner-footer"><div class="wrap inner-footer-row"><a class="inner-brand" href="/Mini-AGI/">Mini-AGI</a><p>Контекст → проверка → решение → память</p><div class="inner-footer-links"><a href="/Mini-AGI/devices/">Устройства</a><a href="/Mini-AGI/blog/">Блог</a><a href="https://t.me/nurgisa_andasbekov" target="_blank" rel="noopener noreferrer">Telegram</a></div></div><div class="wrap inner-footer-extra"></div></footer><script>
+      (() => {
+        const key = 'miniagi-theme';
+        const root = document.documentElement;
+        const meta = document.querySelector('meta[name="theme-color"]');
+        const fallbackLabels = { light: 'светлый режим', dark: 'тёмный режим' };
+
+        function currentTheme() {
+          return root.dataset.theme === 'light' ? 'light' : 'dark';
+        }
+
+        function syncControls() {
+          const theme = currentTheme();
+          document.querySelectorAll('[data-theme-toggle]').forEach((control) => {
+            const label = theme === 'light'
+              ? control.getAttribute('data-theme-dark-label') || fallbackLabels.dark
+              : control.getAttribute('data-theme-light-label') || fallbackLabels.light;
+            // The accessible name (aria-label with both modes) stays constant;
+            // only the visible hint and the pressed state (light engaged) change.
+            control.textContent = label;
+            control.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+          });
+        }
+
+        function setTheme(theme) {
+          root.dataset.theme = theme;
+          root.style.colorScheme = theme;
+          const inner = root.hasAttribute('data-inner-page');
+          if (meta) meta.setAttribute('content', inner ? (theme === 'light' ? '#f9faf8' : '#17251d') : (theme === 'light' ? '#f8fafc' : '#050706'));
+          try { window.localStorage.setItem(key, theme); } catch {}
+          syncControls();
+        }
+
+        document.addEventListener('click', (event) => {
+          const target = event.target instanceof Element ? event.target.closest('[data-theme-toggle]') : null;
+          if (!target) return;
+          setTheme(currentTheme() === 'light' ? 'dark' : 'light');
+        });
+
+        syncControls();
+      })();
+    </script><script>
+      (() => {
+        const root = document.documentElement;
+        const items = Array.from(document.querySelectorAll('[data-scroll-reveal]'));
+        if (!items.length) return;
+
+        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        root.classList.add(reduce ? 'reveal-reduced' : 'reveal-ready');
+
+        if (reduce || !('IntersectionObserver' in window)) {
+          items.forEach((item) => item.classList.add('is-visible'));
+          return;
+        }
+
+        items[0]?.classList.add('is-visible');
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.18 });
+
+        items.forEach((item, index) => {
+          item.style.setProperty('--reveal-delay', `${Math.min(index * 70, 220)}ms`);
+          if (!item.classList.contains('is-visible')) observer.observe(item);
+        });
+      })();
+    </script></body></html>
