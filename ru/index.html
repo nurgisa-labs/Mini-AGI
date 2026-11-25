@@ -74,8 +74,8 @@
       .window-dots { display: flex; gap: var(--space-2); flex-shrink: 0; }
       .window-dots i { width: 8px; height: 8px; border: 1px solid #82918a; border-radius: 50%; }
       .window-title { min-width: 0; font-size: var(--body); font-weight: 600; line-height: 1.5; overflow-wrap: anywhere; }
-      .tabs { display: flex; gap: var(--space-2); padding: var(--space-5) var(--space-5) 0; }
-      .tab { flex: 1 1 0; min-width: 0; min-height: 44px; border: 1px solid transparent; border-radius: var(--space-2); background: transparent; color: var(--muted); padding: var(--space-2); font-size: var(--body); line-height: 1.5; cursor: pointer; overflow-wrap: anywhere; }
+      .tabs { display: flex; flex-wrap: wrap; gap: var(--space-2); padding: var(--space-5) var(--space-5) 0; }
+      .tab { flex: 1 1 0; min-width: max-content; min-height: 44px; border: 1px solid transparent; border-radius: var(--space-2); background: transparent; color: var(--muted); padding: var(--space-2); font-size: var(--body); line-height: 1.5; cursor: pointer; overflow-wrap: normal; }
       .tab[aria-selected="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
       .tab:hover:not([aria-selected="true"]) { border-color: var(--line); color: var(--ink); }
       .report-body { margin: var(--space-5); border: 1px solid var(--line); border-radius: var(--control-radius); background: var(--inset); }
@@ -101,6 +101,7 @@
       .report-documents col:nth-child(1) { width: 30%; }
       .report-documents col:nth-child(2) { width: 52%; }
       .report-documents col:nth-child(3) { width: 18%; }
+      @media (min-width: 681px) { .report-table { table-layout: auto; } .report-table th, .report-table td { overflow-wrap: normal; } }
       .data-label { display: flex; align-items: center; gap: var(--space-2); color: var(--muted); font-size: var(--small); line-height: 1.5; overflow-wrap: anywhere; }
       .data-label::before { content: ""; width: 6px; height: 6px; border: 1px solid currentColor; border-radius: 50%; flex: 0 0 6px; }
       .window > .data-label { margin: 0 var(--space-5) var(--space-5); }
