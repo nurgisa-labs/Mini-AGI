@@ -1,67 +1,45 @@
-# Mini-AGI
+# Open AGI
 
-> Mini-AGI is a compact artificial general intelligence for team workflows: incoming work signals become decisions, tasks, and project memory with human review before final actions.
+> Open AGI builds AI systems that work with company data: executive reports, risk control, document review. Also smart devices and cybersecurity.
 
 Canonical site: https://nurgisa-labs.github.io/Mini-AGI
 Languages: Kazakh, Russian, and English
-Last updated: 2026-11-08
+Last updated: 2026-11-25
 
-## Core positioning
+## What we do
 
-Mini-AGI helps teams stop losing decisions across meetings, files, links, documents, tasks, and incoming work. The Russian, Kazakh and English home pages use a shared light layout. The offer is a practical 7-day pilot around one real work stream, not a generic AI chatbot.
+- AI for executives and teams: Executive reports from company data, project risk control, public tender matching, review of large document sets. AI prepares; a person checks and decides.
+- Smart devices · in development: A device built for one task: electronics, firmware, a 3D-printed enclosure. We are now building a presence sensor without a camera.
+- Cybersecurity · new area: We connect AI to company data safely: a separate account, read-only access, permission checks before launch.
 
-1. Capture an incoming signal.
-2. Link it to project context, people, prior decisions, and constraints.
-3. Prepare a draft note, task, answer, or next step.
-4. Mark sources and risks before external action.
-5. Keep human review for clients, money, publication, legal, and final decisions.
-6. Save confirmed decisions back into project memory.
+## How to start
 
-## Target audience
-
-- Teams working across meetings, documents, tasks, and messengers.
-- Operators who need a source-grounded memory and explicit review gates.
-- Teams starting with one repeatable work stream before expanding.
-
-## Smart devices
-
-Mini-AGI also develops verifiable smart devices around one real task. The engineering loop can combine Raspberry Pi, Arduino or ESP hardware, embedded software, local AI logic, external integrations and a 3D-printed enclosure. The first public case is a multisensor presence detector marked as a pilot in development, not a finished serial product.
-
-## Important topics
-
-- Mini-AGI
-- compact artificial general intelligence
-- мини искусственный общий интеллект
-- шағын жасанды жалпы интеллект
-- рабочий контур с ИИ
-- жобалық жад
-- project memory
-- Telegram/WhatsApp incoming work
-- agent drafts
-- source checking
-- human review
-- decisions → memory
+1. A conversation: what the task is and what depends on it.
+2. A first result on your data.
+3. We review the result and decide whether to continue.
 
 ## Pages
 
-- `/Mini-AGI/` — Russian main landing page.
-- `/Mini-AGI/contact/` — Russian contact fallback page.
-- `/Mini-AGI/devices/` — Russian smart-device engineering page.
-- `/Mini-AGI/kz/` — Kazakh main landing page.
-- `/Mini-AGI/kz/contact/` — Kazakh contact fallback page.
-- `/Mini-AGI/kz/devices/` — Kazakh smart-device engineering page.
-- `/Mini-AGI/en/` — English main landing page.
-- `/Mini-AGI/en/contact/` — English contact fallback page.
-- `/Mini-AGI/en/devices/` — English smart-device engineering page.
-- `/Mini-AGI/blog/` — Russian Mini-AGI notes index with an English interactive learning artifact.
+- `/Mini-AGI/` — Russian main page.
+- `/Mini-AGI/kz/` — Kazakh main page.
+- `/Mini-AGI/en/` — English main page.
+- `/Mini-AGI/contact/` — Russian contact page.
+- `/Mini-AGI/kz/contact/` — Kazakh contact page.
+- `/Mini-AGI/en/contact/` — English contact page.
+- `/Mini-AGI/devices/` — Russian smart-device page: verified smart devices built with Raspberry Pi, Arduino and ESP: electronics, firmware, AI integrations and 3D-printed enclosures.
+- `/Mini-AGI/kz/devices/` — Kazakh smart-device page.
+- `/Mini-AGI/en/devices/` — English smart-device page.
+- `/Mini-AGI/blog/` — Russian Open AGI notes index with an English interactive learning artifact.
 - `/Mini-AGI/blog/how-a-neural-network-learns/` — original interactive 3D explainer of pixel input, forward propagation, loss and gradients, parameter updates, and a stronger correct-class response.
 - `/Mini-AGI/blog/kuda-ukhodyat-resheniya-posle-vstrech/` — practical article on keeping meeting decisions in the working loop.
-- `/Mini-AGI/blog/s-chego-nachat-pilot-mini-agi/` — practical article on selecting the first Mini-AGI work stream for a seven-day pilot.
+- `/Mini-AGI/blog/s-chego-nachat-pilot-mini-agi/` — practical article on selecting the first Open AGI work stream for a seven-day pilot.
 
-## What Mini-AGI is not
+## Principle
 
-Mini-AGI is not marketed as a fully autonomous replacement for specialists. Agents prepare context-aware work; people review, approve, and own final decisions.
+AI prepares, people decide.
 
 ## Contact
 
-Primary Telegram: https://t.me/nurgisa_andasbekov (`@nurgisa_andasbekov`). If the link does not open, search for the handle in Telegram and send the short process description from the contact page.
+Primary Telegram: https://t.me/nurgisa_andasbekov (`@nurgisa_andasbekov`). If the link does not open, search for the handle in Telegram. Please do not send personal or client data before we agree on terms.
+
+Open AGI is run by Nurgisa Andasbek.
